@@ -1,15 +1,24 @@
 import { Carousel } from '@mantine/carousel';
 import { Box, Card, Text, Stack } from '@mantine/core';
+import { EmblaCarouselType } from 'embla-carousel-react';
 
 type ScoreDragProps = {
     changeScore: Function;
-    player: number
+    player: number;
+    setEmbla: (embla: EmblaCarouselType) => void;
 }
 
-function ScoreDrag({ changeScore, player }: ScoreDragProps){
+function ScoreDrag({ changeScore, player, setEmbla }: ScoreDragProps){
+
     return (
         <Box w={"100%"}>
-        <Carousel orientation="vertical" height={400} withControls={false} onSlideChange={ (e) => changeScore(e, player) }>
+        <Carousel
+            getEmblaApi={setEmbla}
+            orientation="vertical"
+            height={400}
+            withControls={false}
+            onSlideChange={ (e) => changeScore(e, player) }
+        >
             {[...Array(30)].map((_,i) => i).map( v => (
                 <Carousel.Slide key={v}>
                     <Card shadow="sm" padding="lg" radius="md" withBorder style={{ height: "100%", width: "100%" }}>

@@ -1,13 +1,19 @@
-import { Container, Grid, Text, Switch, Badge } from "@mantine/core"
+import { Container, Grid, Text, Switch, Badge, Button } from "@mantine/core"
 import ScoreDrag from "./components/ScoreDrag"
 import { useEffect, useState } from "react";
+import { EmblaCarouselType } from "embla-carousel-react";
+
 
 const isEven = (i: number) => i % 2 === 0;
 
 function App() {
 
+    const [emblaLeft, setEmblaLeft] = useState<EmblaCarouselType | null>(null);
+    const [emblaRight, setEmblaRight] = useState<EmblaCarouselType| null>(null);
+
     const [ playersScore, setPlayersScore ] = useState<[number, number]>([0,0]);
     const [ isFirstPlayerServe, setIsFirstPlayerServe ] = useState<boolean>(true);
+
     const [ isCurrentFirstPlayerServe, setIsCurrentFirstPlayerServe ] = useState<boolean>(true);
 
     function changeScore(score: number, player: number){
@@ -19,20 +25,33 @@ function App() {
         });
     }
 
-    function determineWhoServeWithScore(totalScore: number, firstPlayerServe: boolean){
+    function determineWhoServeWithScore(playersScore: [number, number], firstPlayerServe: boolean){
+        const totalScore = playersScore[0] + playersScore[1];
         const players = firstPlayerServe ? ["first", "second"] : ["second", "first"];
-        const finalScoreDetermine = isEven(totalScore) ? totalScore : totalScore - 1;
 
-        const whoServe = finalScoreDetermine % 4 === 0 ? players[0] : players[1]
-        console.log(`${whoServe} Player Serve`);
+        if(playersScore[0] >= 10 && playersScore[1] >= 10){ // deuce
 
-        setIsCurrentFirstPlayerServe(whoServe === "first")
+            // const finalScoreDetermine = isEven(totalScore) ? totalScore : totalScore - 1;
+            const whoServe = totalScore % 2 === 0 ? players[0] : players[1]
+            console.log(`${whoServe} Player Serve`);
+
+            setIsCurrentFirstPlayerServe(whoServe === "first")
+
+        }
+        else{ // Normal
+            const finalScoreDetermine = isEven(totalScore) ? totalScore : totalScore - 1;
+    
+            const whoServe = finalScoreDetermine % 4 === 0 ? players[0] : players[1]
+            console.log(`${whoServe} Player Serve`);
+    
+            setIsCurrentFirstPlayerServe(whoServe === "first")
+        }
+
     }
 
     useEffect(() => {
-        const totalScore = playersScore[0] + playersScore[1]
-        determineWhoServeWithScore(totalScore, isFirstPlayerServe)
-    }, [playersScore]);
+        determineWhoServeWithScore(playersScore, isFirstPlayerServe)
+    }, [playersScore, isFirstPlayerServe]);
 
     return (
         <>
@@ -40,6 +59,19 @@ function App() {
             <Text ta="center" fz={48}>
                 TT Score Board
             </Text>
+
+            <Button 
+                variant="filled" 
+                onClick={() => {
+                    setPlayersScore([0, 0]);
+
+                    emblaLeft?.scrollTo(0, true)
+                    emblaRight?.scrollTo(0, true)
+                }} 
+                mb={18}
+            >
+                Reset
+            </Button>
 
             <Switch
                 label="Left / First Player Serve"
@@ -49,11 +81,11 @@ function App() {
 
             <Grid mt={12}>
                 <Grid.Col span={6}>
-                    <ScoreDrag changeScore={changeScore} player={0}/>
+                    <ScoreDrag changeScore={changeScore} player={0} setEmbla={setEmblaLeft} />
                     {isCurrentFirstPlayerServe && (<Badge color="blue" size="lg" mt={6}>Serve</Badge>)}
                 </Grid.Col>
                 <Grid.Col span={6}>
-                    <ScoreDrag changeScore={changeScore} player={1}/>
+                    <ScoreDrag changeScore={changeScore} player={1} setEmbla={setEmblaRight}/>
                     {!isCurrentFirstPlayerServe && (<Badge color="blue" size="lg" mt={6}>Serve</Badge>)}
                 </Grid.Col>
             </Grid>
