@@ -8,8 +8,8 @@ const isEven = (i: number) => i % 2 === 0;
 
 function App() {
 
-    const [emblaLeft, setEmblaLeft] = useState<EmblaCarouselType | null>(null);
-    const [emblaRight, setEmblaRight] = useState<EmblaCarouselType| null>(null);
+    const [ emblaLeft, setEmblaLeft ] = useState<EmblaCarouselType | null>(null);
+    const [ emblaRight, setEmblaRight ] = useState<EmblaCarouselType| null>(null);
 
     const [ playersScore, setPlayersScore ] = useState<[number, number]>([0,0]);
     const [ isFirstPlayerServe, setIsFirstPlayerServe ] = useState<boolean>(true);
@@ -28,24 +28,19 @@ function App() {
     function determineWhoServeWithScore(playersScore: [number, number], firstPlayerServe: boolean){
         const totalScore = playersScore[0] + playersScore[1];
         const players = firstPlayerServe ? ["first", "second"] : ["second", "first"];
+        
+        let whoServe: string = "";
 
         if(playersScore[0] >= 10 && playersScore[1] >= 10){ // deuce
-
-            // const finalScoreDetermine = isEven(totalScore) ? totalScore : totalScore - 1;
-            const whoServe = totalScore % 2 === 0 ? players[0] : players[1]
-            console.log(`${whoServe} Player Serve`);
-
-            setIsCurrentFirstPlayerServe(whoServe === "first")
-
+            whoServe = totalScore % 2 === 0 ? players[0] : players[1]
         }
         else{ // Normal
             const finalScoreDetermine = isEven(totalScore) ? totalScore : totalScore - 1;
-    
-            const whoServe = finalScoreDetermine % 4 === 0 ? players[0] : players[1]
-            console.log(`${whoServe} Player Serve`);
-    
-            setIsCurrentFirstPlayerServe(whoServe === "first")
+            whoServe = finalScoreDetermine % 4 === 0 ? players[0] : players[1]
         }
+
+        // console.log(`${whoServe} Player Serve`);
+        setIsCurrentFirstPlayerServe(whoServe === "first")
 
     }
 
