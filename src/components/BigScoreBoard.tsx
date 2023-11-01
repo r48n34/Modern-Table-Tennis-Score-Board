@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-// import { notifications } from '@mantine/notifications';
-
 import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip } from "@mantine/core"
 import ScoreDrag from "./ScoreDrag"
 import { EmblaCarouselType } from "embla-carousel-react";
@@ -45,6 +43,16 @@ function BigScoreBoard(){
         setIsCurrentFirstPlayerServe(whoServe === "left");
     }
 
+    function initScoreScreen(){
+        emblaLeftScore?.scrollTo(0, false)
+        emblaRightScore?.scrollTo(0, false)
+    }
+
+    function initMatchScoreScreen(newLeftScore: number, newRightScore: number){
+        emblaLeftMatchScore?.scrollTo(newLeftScore, false);
+        emblaRightMatchScore?.scrollTo(newRightScore, false);
+    }
+
     function resetScore(){
         setPlayersScore(v => ({
             ...v, 
@@ -52,56 +60,39 @@ function BigScoreBoard(){
             rightPlayerScore: 0,
         }));
 
-        emblaLeftScore?.scrollTo(0, false)
-        emblaRightScore?.scrollTo(0, false)
+        initScoreScreen()
     }
 
     function nextMatctStart(){
-        // const whoWon = determineWhoWin(playersScore["leftPlayerScore"], playersScore["rightPlayerScore"]);
-        // if( whoWon === "" ){
+        const whoWin = determineWhoWin(playersScore["leftPlayerScore"], playersScore["rightPlayerScore"]);
 
-        //     notifications.show({
-        //         color: 'red',
-        //         title: 'Error',
-        //         message: 'The score match have not end yet.',
-        //     })
-
-        //     return;
-        // }
-    
-        const newLeftScore = playersScore["rightPlayerMatchScore"]
-        const newRightScore = playersScore["leftPlayerMatchScore"]
+        const newLeftMatchScore  = playersScore["rightPlayerMatchScore"] + ( whoWin === "Right Won >" ? 1 : 0);
+        const newRightMatchScore = playersScore["leftPlayerMatchScore"] +  ( whoWin === "< Left Won"  ? 1 : 0);
 
         setPlayersScore({
             leftPlayerScore: 0,
             rightPlayerScore: 0,
-            leftPlayerMatchScore: newLeftScore,
-            rightPlayerMatchScore: newRightScore,
+            leftPlayerMatchScore: newLeftMatchScore,
+            rightPlayerMatchScore: newRightMatchScore,
         });
 
-        emblaLeftMatchScore?.scrollTo(newLeftScore, false);
-        emblaRightMatchScore?.scrollTo(newRightScore, false);
+        initMatchScoreScreen(newLeftMatchScore, newRightMatchScore);
 
-        emblaLeftScore?.scrollTo(0, false)
-        emblaRightScore?.scrollTo(0, false)
-    
-
+        initScoreScreen();
         setWhoServe( whoServe === "right" ? "left" : "right" );
     }
 
     function swapMatchScore(){
-        const newLeftScore  = playersScore["rightPlayerMatchScore"]
-        const newRightScore = playersScore["leftPlayerMatchScore"]
+        const newLeftMatchScore  = playersScore["rightPlayerMatchScore"]
+        const newRightMatchScore = playersScore["leftPlayerMatchScore"]
 
         setPlayersScore(v => ({
             ...v, 
-            leftPlayerMatchScore: newLeftScore,
-            rightPlayerMatchScore: newRightScore,
+            leftPlayerMatchScore: newLeftMatchScore,
+            rightPlayerMatchScore: newRightMatchScore,
         }));
 
-        emblaLeftMatchScore?.scrollTo(newLeftScore, false);
-        emblaRightMatchScore?.scrollTo(newRightScore, false);
-
+        initMatchScoreScreen(newLeftMatchScore, newRightMatchScore)
         setWhoServe( whoServe === "right" ? "left" : "right" );
     }
 
@@ -118,7 +109,12 @@ function BigScoreBoard(){
 
             <Group justify="center">
                 <Tooltip label="Start Next Match">
-                <ActionIcon variant="light" aria-label="Start Next Match" onClick={() => nextMatctStart()} disabled={determineWhoWin(playersScore["leftPlayerScore"], playersScore["rightPlayerScore"]) === ""} >
+                <ActionIcon 
+                    variant="light"
+                    aria-label="Start Next Match"
+                    onClick={() => nextMatctStart()}
+                    disabled={determineWhoWin(playersScore["leftPlayerScore"], playersScore["rightPlayerScore"]) === ""}
+                >
                     <IconPlayerTrackNextFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>
                 </Tooltip>
@@ -209,12 +205,12 @@ function BigScoreBoard(){
                     />
                     {!isCurrentFirstPlayerServe 
                         && (
-                        <Group justify="flex-end">
-                        <Badge color="blue" size="lg" mt={6}>
-                            <IconBounceRight size={12}/> Serve
-                        </Badge>
-                        </Group>
-                    )
+                            <Group justify="flex-end">
+                            <Badge color="blue" size="lg" mt={6}>
+                                <IconBounceRight size={12}/> Serve
+                            </Badge>
+                            </Group>
+                        )
                     }
                 </Grid.Col>
             </Grid>
