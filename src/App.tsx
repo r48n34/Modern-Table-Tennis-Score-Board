@@ -2,9 +2,7 @@ import { Container, Grid, Text, Switch, Badge, Button } from "@mantine/core"
 import ScoreDrag from "./components/ScoreDrag"
 import { useEffect, useState } from "react";
 import { EmblaCarouselType } from "embla-carousel-react";
-
-
-const isEven = (i: number) => i % 2 === 0;
+import { isEven } from "./utils/commonUtils";
 
 function App() {
 
@@ -31,7 +29,7 @@ function App() {
         
         let whoServe: string = "";
 
-        if(playersScore[0] >= 10 && playersScore[1] >= 10){ // deuce
+        if(playersScore[0] >= 10 && playersScore[1] >= 10){ // Deuce
             whoServe = totalScore % 2 === 0 ? players[0] : players[1]
         }
         else{ // Normal
@@ -65,9 +63,10 @@ function App() {
                 }} 
                 mb={18}
             >
-                Reset
+                Reset Score
             </Button>
 
+            {/* <ColorToggleBtn/> */}
             <Switch
                 label="Left / First Player Serve"
                 checked={isFirstPlayerServe}
@@ -75,11 +74,19 @@ function App() {
             />
 
             <Grid mt={12}>
-                <Grid.Col span={6}>
+                <Grid.Col span={5}>
                     <ScoreDrag changeScore={changeScore} player={0} setEmbla={setEmblaLeft} />
                     {isCurrentFirstPlayerServe && (<Badge color="blue" size="lg" mt={6}>Serve</Badge>)}
                 </Grid.Col>
-                <Grid.Col span={6}>
+
+                <Grid.Col span={1}>
+                    <ScoreDrag player={-1} height={230} />
+                </Grid.Col>
+                <Grid.Col span={1}>
+                    <ScoreDrag player={-2} height={230}/>
+                </Grid.Col>
+
+                <Grid.Col span={5}>
                     <ScoreDrag changeScore={changeScore} player={1} setEmbla={setEmblaRight}/>
                     {!isCurrentFirstPlayerServe && (<Badge color="blue" size="lg" mt={6}>Serve</Badge>)}
                 </Grid.Col>

@@ -3,21 +3,23 @@ import { Box, Card, Text, Stack } from '@mantine/core';
 import { EmblaCarouselType } from 'embla-carousel-react';
 
 type ScoreDragProps = {
-    changeScore: Function;
+    changeScore?: Function;
+    height?: number;
     player: number;
-    setEmbla: (embla: EmblaCarouselType) => void;
+    setEmbla?: (embla: EmblaCarouselType) => void;
 }
 
-function ScoreDrag({ changeScore, player, setEmbla }: ScoreDragProps){
+function ScoreDrag({ changeScore, player = -1, height = 350, setEmbla }: ScoreDragProps){
 
     return (
-        <Box w={"100%"}>
+        <Box w={"100%"} p={6}>
         <Carousel
-            getEmblaApi={setEmbla}
+            slideGap="md"
+            getEmblaApi={!!setEmbla ? setEmbla : () => {}}
             orientation="vertical"
-            height={400}
+            height={height}
             withControls={false}
-            onSlideChange={ (e) => changeScore(e, player) }
+            onSlideChange={ (e) => !!changeScore && changeScore(e, player) }
         >
             {[...Array(30)].map((_,i) => i).map( v => (
                 <Carousel.Slide key={v}>

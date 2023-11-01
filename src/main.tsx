@@ -4,11 +4,12 @@ import App from './App.tsx'
 import '@mantine/core/styles.css';
 import '@mantine/carousel/styles.css';
 
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <MantineProvider>
+    <ColorSchemeScript defaultColorScheme="auto" />
+    <MantineProvider defaultColorScheme="auto">
     <App />
     </MantineProvider>
   </React.StrictMode>,
