@@ -75,6 +75,30 @@ function BigScoreBoard(){
             <Button 
                 variant="filled" 
                 onClick={() => {
+
+                    console.log(playersScore);
+                    const newLeftScore = playersScore["rightPlayerMatchScore"]
+                    const newRightScore = playersScore["leftPlayerMatchScore"]
+
+                    console.log(newLeftScore, newRightScore);
+
+                    setPlayersScore(v => ({
+                        ...v, 
+                        leftPlayerMatchScore: newLeftScore,
+                        rightPlayerMatchScore: newRightScore,
+                    }));
+
+                    emblaLeftMatchScore?.scrollTo(newLeftScore, false)
+                    emblaRightMatchScore?.scrollTo(newRightScore, false)
+                }} 
+                mb={18}
+            >
+                Swap Match Score
+            </Button>
+
+            <Button 
+                variant="filled" 
+                onClick={() => {
                     setPlayersScore(v => ({
                         ...v, 
                         leftPlayerScore: 0,
@@ -100,20 +124,38 @@ function BigScoreBoard(){
 
             <Grid mt={12}>
                 <Grid.Col span={5}>
-                    <ScoreDrag changeScore={changeScore} player={"leftPlayerScore"} setEmbla={setEmblaLeftScore} />
+                    <ScoreDrag 
+                        changeScore={changeScore} 
+                        player={"leftPlayerScore"} 
+                        setEmbla={setEmblaLeftScore} 
+                    />
                     {isCurrentFirstPlayerServe && (<Badge color="blue" size="lg" mt={6}>Serve</Badge>)}
                 </Grid.Col>
 
                 <Grid.Col span={1}>
-                    <ScoreDrag player={"leftPlayerMatchScore"} height={230} setEmbla={setEmblaLeftMatchScore} />
+                    <ScoreDrag 
+                        player={"leftPlayerMatchScore"}
+                        changeScore={changeScore}
+                        height={230}
+                        setEmbla={setEmblaLeftMatchScore}
+                    />
                 </Grid.Col>
 
                 <Grid.Col span={1}>
-                    <ScoreDrag player={"rightPlayerMatchScore"} height={230} setEmbla={setEmblaRightMatchScore} />
+                    <ScoreDrag 
+                        player={"rightPlayerMatchScore"}
+                        changeScore={changeScore}
+                        height={230}
+                        setEmbla={setEmblaRightMatchScore}
+                    />
                 </Grid.Col>
 
                 <Grid.Col span={5}>
-                    <ScoreDrag changeScore={changeScore} player={"rightPlayerScore"} setEmbla={setEmblaRightScore}/>
+                    <ScoreDrag 
+                        changeScore={changeScore}
+                        player={"rightPlayerScore"}
+                        setEmbla={setEmblaRightScore}
+                    />
                     {!isCurrentFirstPlayerServe && (<Badge color="blue" size="lg" mt={6}>Serve</Badge>)}
                 </Grid.Col>
             </Grid>
