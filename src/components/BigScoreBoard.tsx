@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Text, Switch, Badge, Button } from "@mantine/core"
+import { Container, Grid, Text, Badge, Button, Radio, Group } from "@mantine/core"
 import ScoreDrag from "./ScoreDrag"
 import { EmblaCarouselType } from "embla-carousel-react";
 import { isEven } from "../utils/commonUtils";
+import { IconPingPong, IconSwords } from "@tabler/icons-react";
+import { determineWhoWin } from "../utils/tableTennisUtils";
 
 type ScoreObject = {
     leftPlayerScore: number,
@@ -13,14 +15,14 @@ type ScoreObject = {
 
 function BigScoreBoard(){
     
-
+    // embla API useState
     const [ emblaLeftScore, setEmblaLeftScore ] = useState<EmblaCarouselType | null>(null);
     const [ emblaRightScore, setEmblaRightScore ] = useState<EmblaCarouselType| null>(null);
 
     const [ emblaLeftMatchScore, setEmblaLeftMatchScore   ] = useState<EmblaCarouselType | null>(null);
     const [ emblaRightMatchScore, setEmblaRightMatchScore ] = useState<EmblaCarouselType | null>(null);
 
-    // const [ playersMatchScore, setPlayersMatchScore ] = useState<[number, number]>([0, 0]);
+    // General score
     const [ playersScore, setPlayersScore ] = useState<ScoreObject>({
         leftPlayerScore: 0,
         leftPlayerMatchScore: 0,
@@ -29,8 +31,7 @@ function BigScoreBoard(){
         rightPlayerMatchScore: 0
     });
 
-    const [ isFirstPlayerServe, setIsFirstPlayerServe ] = useState<boolean>(true);
-
+    const [ whoServe, setWhoServe ] = useState<"left" | "right" >("left");
     const [ isCurrentFirstPlayerServe, setIsCurrentFirstPlayerServe ] = useState<boolean>(true);
 
     function changeScore(score: number, player: keyof ScoreObject){
@@ -56,14 +57,61 @@ function BigScoreBoard(){
             whoServe = finalScoreDetermine % 4 === 0 ? players[0] : players[1]
         }
 
-        // console.log(`${whoServe} Player Serve`);
         setIsCurrentFirstPlayerServe(whoServe === "first")
+    }
 
+    function resetScore(){
+        setPlayersScore(v => ({
+            ...v, 
+            leftPlayerScore: 0,
+            rightPlayerScore: 0,
+        }));
+
+        emblaLeftScore?.scrollTo(0, false)
+        emblaRightScore?.scrollTo(0, false)
+    }
+
+    function nextMatctStart(){
+    
+        const newLeftScore = playersScore["rightPlayerMatchScore"]
+        const newRightScore = playersScore["leftPlayerMatchScore"]
+
+        setPlayersScore({
+            leftPlayerScore: 0,
+            rightPlayerScore: 0,
+            leftPlayerMatchScore: newLeftScore,
+            rightPlayerMatchScore: newRightScore,
+        });
+
+        emblaLeftMatchScore?.scrollTo(newLeftScore, false);
+        emblaRightMatchScore?.scrollTo(newRightScore, false);
+
+        emblaLeftScore?.scrollTo(0, false)
+        emblaRightScore?.scrollTo(0, false)
+    
+
+        setWhoServe( whoServe === "right" ? "left" : "right" );
+    }
+
+    function swapMatchScore(){
+        const newLeftScore = playersScore["rightPlayerMatchScore"]
+        const newRightScore = playersScore["leftPlayerMatchScore"]
+
+        setPlayersScore(v => ({
+            ...v, 
+            leftPlayerMatchScore: newLeftScore,
+            rightPlayerMatchScore: newRightScore,
+        }));
+
+        emblaLeftMatchScore?.scrollTo(newLeftScore, false);
+        emblaRightMatchScore?.scrollTo(newRightScore, false);
+
+        setWhoServe( whoServe === "right" ? "left" : "right" );
     }
 
     useEffect(() => {
-        determineWhoServeWithScore(playersScore, isFirstPlayerServe)
-    }, [playersScore, isFirstPlayerServe]);
+        determineWhoServeWithScore(playersScore, whoServe === "left")
+    }, [playersScore, whoServe]);
 
     return (
         <>
@@ -74,23 +122,15 @@ function BigScoreBoard(){
 
             <Button 
                 variant="filled" 
-                onClick={() => {
+                onClick={() => nextMatctStart()} 
+                mb={18}
+            >
+                Start Next Match
+            </Button>
 
-                    console.log(playersScore);
-                    const newLeftScore = playersScore["rightPlayerMatchScore"]
-                    const newRightScore = playersScore["leftPlayerMatchScore"]
-
-                    console.log(newLeftScore, newRightScore);
-
-                    setPlayersScore(v => ({
-                        ...v, 
-                        leftPlayerMatchScore: newLeftScore,
-                        rightPlayerMatchScore: newRightScore,
-                    }));
-
-                    emblaLeftMatchScore?.scrollTo(newLeftScore, false)
-                    emblaRightMatchScore?.scrollTo(newRightScore, false)
-                }} 
+            <Button 
+                variant="filled" 
+                onClick={() => swapMatchScore()} 
                 mb={18}
             >
                 Swap Match Score
@@ -98,29 +138,22 @@ function BigScoreBoard(){
 
             <Button 
                 variant="filled" 
-                onClick={() => {
-                    setPlayersScore(v => ({
-                        ...v, 
-                        leftPlayerScore: 0,
-                        rightPlayerScore: 0,
-                    }));
-
-                    emblaLeftScore?.scrollTo(0, false)
-                    emblaRightScore?.scrollTo(0, false)
-
-                    // emblaLeftMatchScore?.scrollTo(0, false)
-                    // emblaRightMatchScore?.scrollTo(0, false)
-                }} 
+                onClick={() => resetScore()} 
                 mb={18}
             >
                 Reset Score
             </Button>
 
-            <Switch
-                label="Left / First Player Serve"
-                checked={isFirstPlayerServe}
-                onChange={(event) => setIsFirstPlayerServe(event.currentTarget.checked)}
-            />
+            <Radio.Group
+                value={whoServe}
+                onChange={ (v: string) => setWhoServe(v as "left"| "right") }
+                withAsterisk
+            >
+                <Group justify="space-between">
+                    <Radio value="left"  label={ <><IconPingPong size={18}/> First Serve</>} />
+                    <Radio value="right" label={ <><IconPingPong size={18}/> First Serve</>} />
+                </Group>
+            </Radio.Group>
 
             <Grid mt={12}>
                 <Grid.Col span={5}>
@@ -132,22 +165,36 @@ function BigScoreBoard(){
                     {isCurrentFirstPlayerServe && (<Badge color="blue" size="lg" mt={6}>Serve</Badge>)}
                 </Grid.Col>
 
-                <Grid.Col span={1}>
-                    <ScoreDrag 
-                        player={"leftPlayerMatchScore"}
-                        changeScore={changeScore}
-                        height={230}
-                        setEmbla={setEmblaLeftMatchScore}
-                    />
-                </Grid.Col>
+                <Grid.Col span={2}>
+                    <Grid>
+                        <Grid.Col span={6}>
+                        <ScoreDrag 
+                            player={"leftPlayerMatchScore"}
+                            changeScore={changeScore}
+                            height={230}
+                            setEmbla={setEmblaLeftMatchScore}
+                        />
+                        </Grid.Col>
+                        <Grid.Col span={6}>
+                            <ScoreDrag 
+                                player={"rightPlayerMatchScore"}
+                                changeScore={changeScore}
+                                height={230}
+                                setEmbla={setEmblaRightMatchScore}
+                            />
+                        </Grid.Col>
+                    </Grid>
 
-                <Grid.Col span={1}>
-                    <ScoreDrag 
-                        player={"rightPlayerMatchScore"}
-                        changeScore={changeScore}
-                        height={230}
-                        setEmbla={setEmblaRightMatchScore}
-                    />
+                    {
+                        playersScore["leftPlayerScore"] >= 10 
+                        && playersScore["rightPlayerScore"] >= 10
+                        && (<Text ta="center" fz={32} fw={300}> <IconSwords /> Deuce </Text>)
+                    }
+                    
+                    <Text ta="center" fz={32}> 
+                        { determineWhoWin(playersScore["leftPlayerScore"], playersScore["rightPlayerScore"]) }
+                    </Text> 
+     
                 </Grid.Col>
 
                 <Grid.Col span={5}>
