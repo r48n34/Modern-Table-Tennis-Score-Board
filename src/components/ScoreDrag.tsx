@@ -12,7 +12,7 @@ type ScoreDragProps = {
 function ScoreDrag({ changeScore, player = "", height = 350, setEmbla }: ScoreDragProps){
 
     return (
-        <Box w={"100%"} p={6}>
+        <Box w={"100%"} p={4}>
         <Carousel
             slideGap="md"
             getEmblaApi={!!setEmbla ? setEmbla : () => {}}

@@ -13,6 +13,7 @@
     "@mantine/carousel": "^7.1.7",
     "@mantine/core": "^7.1.7",
     "@mantine/hooks": "^7.1.7",
+    "@mantine/notifications": "^7.1.7",
     "@react-spring/web": "^9.7.3",
     "@tabler/icons-react": "^2.40.0",
     "@use-gesture/react": "^10.3.0",

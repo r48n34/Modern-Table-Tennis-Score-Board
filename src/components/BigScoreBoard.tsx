@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Text, Badge, Button, Radio, Group } from "@mantine/core"
+// import { notifications } from '@mantine/notifications';
+
+import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip } from "@mantine/core"
 import ScoreDrag from "./ScoreDrag"
 import { EmblaCarouselType } from "embla-carousel-react";
-import { isEven } from "../utils/commonUtils";
-import { IconPingPong, IconSwords } from "@tabler/icons-react";
-import { determineWhoWin } from "../utils/tableTennisUtils";
 
-type ScoreObject = {
-    leftPlayerScore: number,
-    leftPlayerMatchScore: number,
-    rightPlayerScore: number,
-    rightPlayerMatchScore: number
-}
+import { IconBounceLeft, IconBounceRight, IconPingPong, IconPlayerTrackNextFilled, IconRecycle, IconSwords, IconZoomReset } from "@tabler/icons-react";
+import { determineWhoServe, determineWhoWin } from "../utils/tableTennisUtils";
+import { ScoreObject } from "../interface/tableTennisInterface";
+import ColorToggleBtn from "./common/ColorToggleBtn";
 
 function BigScoreBoard(){
     
@@ -31,7 +28,7 @@ function BigScoreBoard(){
         rightPlayerMatchScore: 0
     });
 
-    const [ whoServe, setWhoServe ] = useState<"left" | "right" >("left");
+    const [ whoServe, setWhoServe ] = useState<"left" | "right">("left");
     const [ isCurrentFirstPlayerServe, setIsCurrentFirstPlayerServe ] = useState<boolean>(true);
 
     function changeScore(score: number, player: keyof ScoreObject){
@@ -44,20 +41,8 @@ function BigScoreBoard(){
     }
 
     function determineWhoServeWithScore(playersScore: ScoreObject, firstPlayerServe: boolean){
-        const totalScore = playersScore["leftPlayerScore"] + playersScore["rightPlayerScore"];
-        const players = firstPlayerServe ? ["first", "second"] : ["second", "first"];
-        
-        let whoServe: string = "";
-
-        if(playersScore["leftPlayerScore"] >= 10 && playersScore["rightPlayerScore"] >= 10){ // Deuce
-            whoServe = totalScore % 2 === 0 ? players[0] : players[1]
-        }
-        else{ // Normal
-            const finalScoreDetermine = isEven(totalScore) ? totalScore : totalScore - 1;
-            whoServe = finalScoreDetermine % 4 === 0 ? players[0] : players[1]
-        }
-
-        setIsCurrentFirstPlayerServe(whoServe === "first")
+        let whoServe = determineWhoServe(playersScore, firstPlayerServe);
+        setIsCurrentFirstPlayerServe(whoServe === "left");
     }
 
     function resetScore(){
@@ -72,6 +57,17 @@ function BigScoreBoard(){
     }
 
     function nextMatctStart(){
+        // const whoWon = determineWhoWin(playersScore["leftPlayerScore"], playersScore["rightPlayerScore"]);
+        // if( whoWon === "" ){
+
+        //     notifications.show({
+        //         color: 'red',
+        //         title: 'Error',
+        //         message: 'The score match have not end yet.',
+        //     })
+
+        //     return;
+        // }
     
         const newLeftScore = playersScore["rightPlayerMatchScore"]
         const newRightScore = playersScore["leftPlayerMatchScore"]
@@ -94,7 +90,7 @@ function BigScoreBoard(){
     }
 
     function swapMatchScore(){
-        const newLeftScore = playersScore["rightPlayerMatchScore"]
+        const newLeftScore  = playersScore["rightPlayerMatchScore"]
         const newRightScore = playersScore["leftPlayerMatchScore"]
 
         setPlayersScore(v => ({
@@ -120,29 +116,31 @@ function BigScoreBoard(){
                 TT Score Board
             </Text>
 
-            <Button 
-                variant="filled" 
-                onClick={() => nextMatctStart()} 
-                mb={18}
-            >
-                Start Next Match
-            </Button>
+            <Group justify="center">
+                <Tooltip label="Start Next Match">
+                <ActionIcon variant="light" aria-label="Start Next Match" onClick={() => nextMatctStart()} disabled={determineWhoWin(playersScore["leftPlayerScore"], playersScore["rightPlayerScore"]) === ""} >
+                    <IconPlayerTrackNextFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                </ActionIcon>
+                </Tooltip>
 
-            <Button 
-                variant="filled" 
-                onClick={() => swapMatchScore()} 
-                mb={18}
-            >
-                Swap Match Score
-            </Button>
 
-            <Button 
-                variant="filled" 
-                onClick={() => resetScore()} 
-                mb={18}
-            >
-                Reset Score
-            </Button>
+                <Tooltip label="Swap Match Score">
+                <ActionIcon variant="light" aria-label="Swap Match Score" onClick={() => swapMatchScore()} >
+                    <IconRecycle style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                </ActionIcon>
+                </Tooltip>
+
+
+                <Tooltip label="Reset Score">
+                <ActionIcon variant="light" aria-label="Reset Score" onClick={() => resetScore()} >
+                    <IconZoomReset style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                </ActionIcon>
+                </Tooltip>
+
+                <ColorToggleBtn />
+            </Group>
+
+
 
             <Radio.Group
                 value={whoServe}
@@ -150,8 +148,8 @@ function BigScoreBoard(){
                 withAsterisk
             >
                 <Group justify="space-between">
-                    <Radio value="left"  label={ <><IconPingPong size={18}/> First Serve</>} />
-                    <Radio value="right" label={ <><IconPingPong size={18}/> First Serve</>} />
+                    <Radio value="left"  label={ <><IconPingPong size={18}/> First Serve </>} />
+                    <Radio value="right" label={ <><IconPingPong size={18}/> First Serve </>} />
                 </Group>
             </Radio.Group>
 
@@ -162,7 +160,13 @@ function BigScoreBoard(){
                         player={"leftPlayerScore"} 
                         setEmbla={setEmblaLeftScore} 
                     />
-                    {isCurrentFirstPlayerServe && (<Badge color="blue" size="lg" mt={6}>Serve</Badge>)}
+                    {isCurrentFirstPlayerServe 
+                        && (
+                        <Badge color="blue" size="lg" mt={6}>
+                            <IconBounceLeft size={12}/> Serve
+                        </Badge>
+                        )
+                    }
                 </Grid.Col>
 
                 <Grid.Col span={2}>
@@ -203,11 +207,20 @@ function BigScoreBoard(){
                         player={"rightPlayerScore"}
                         setEmbla={setEmblaRightScore}
                     />
-                    {!isCurrentFirstPlayerServe && (<Badge color="blue" size="lg" mt={6}>Serve</Badge>)}
+                    {!isCurrentFirstPlayerServe 
+                        && (
+                        <Group justify="flex-end">
+                        <Badge color="blue" size="lg" mt={6}>
+                            <IconBounceRight size={12}/> Serve
+                        </Badge>
+                        </Group>
+                    )
+                    }
                 </Grid.Col>
             </Grid>
-            
         </Container>
+        
+        <Space h="md" />
         </>
     )
 }
