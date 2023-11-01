@@ -5,11 +5,11 @@ import { EmblaCarouselType } from 'embla-carousel-react';
 type ScoreDragProps = {
     changeScore?: Function;
     height?: number;
-    player: number;
+    player: string;
     setEmbla?: (embla: EmblaCarouselType) => void;
 }
 
-function ScoreDrag({ changeScore, player = -1, height = 350, setEmbla }: ScoreDragProps){
+function ScoreDrag({ changeScore, player = "", height = 350, setEmbla }: ScoreDragProps){
 
     return (
         <Box w={"100%"} p={6}>
