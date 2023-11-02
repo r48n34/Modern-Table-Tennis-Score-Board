@@ -1,7 +1,10 @@
 import { ScoreObject } from "../interface/tableTennisInterface";
 import { isEven } from "./commonUtils";
 
-export function determineWhoServe(playersScore: ScoreObject, firstPlayerServe: boolean): "left" | "right" {
+export function determineWhoServe(playersScore: ScoreObject): "left" | "right" {
+
+    const firstPlayerServe = playersScore.whoServeFirst === "left"
+
     const totalScore = playersScore["leftPlayerScore"] + playersScore["rightPlayerScore"];
     const players: Array<"left" | "right"> = firstPlayerServe ? ["left", "right"] : ["right", "left"];
     

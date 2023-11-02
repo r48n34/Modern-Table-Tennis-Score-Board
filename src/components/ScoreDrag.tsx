@@ -20,10 +20,6 @@ function ScoreDrag({ changeScore, player = "", height = 350, initialSlide = 0, s
         !!changeScore && changeScore(e, player)
     }
 
-    useEffect(() => {
-        console.log(initialSlide)
-    }, [initialSlide]);
-
     return (
         <Box w={"100%"} p={4}>
         <Carousel

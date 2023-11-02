@@ -4,7 +4,7 @@ import ScoreDrag from "./ScoreDrag"
 import { EmblaCarouselType } from "embla-carousel-react";
 import { useLocalStorage } from '@mantine/hooks';
 
-import { IconBounceLeft, IconBounceRight, IconPingPong, IconPlayerTrackNextFilled, IconRecycle, IconSwords, IconZoomReset } from "@tabler/icons-react";
+import { IconBounceLeft, IconBounceRight, IconPingPong, IconPlayerTrackNextFilled, IconRecycle, IconServerCog, IconSwords, IconZoomReset } from "@tabler/icons-react";
 import { determineWhoServe, determineWhoWin } from "../utils/tableTennisUtils";
 import { ScoreObject } from "../interface/tableTennisInterface";
 import ColorToggleBtn from "./common/ColorToggleBtn";
@@ -38,13 +38,11 @@ function BigScoreBoard(){
         deserialize: (str) => (str === undefined ? playersScoreDefaultValue : superjson.parse(str)),
     });
 
-    const [ whoServe, setWhoServe ] = useState<"left" | "right">("left");
+    // const [ whoServe, setWhoServe ] = useState<"left" | "right">("left");
     const [ isCurrentFirstPlayerServe, setIsCurrentFirstPlayerServe ] = useState<boolean>(true);
 
     function changeScore(score: number, player: keyof ScoreObject){
         setPlayersScore( v => {
-
-            // console.log("CHANGEEE");
             const newPlayer: ScoreObject = {
                 ...v,
             }
@@ -57,8 +55,8 @@ function BigScoreBoard(){
         });
     }
 
-    function determineWhoServeWithScore(playersScore: ScoreObject, firstPlayerServe: boolean){
-        const whoServe = determineWhoServe(playersScore, firstPlayerServe);
+    function determineWhoServeWithScore(playersScore: ScoreObject){
+        const whoServe = determineWhoServe(playersScore);
         setIsCurrentFirstPlayerServe(whoServe === "left");
     }
 
@@ -82,6 +80,20 @@ function BigScoreBoard(){
         initScoreScreen(0, 0)
     }
 
+    function resetAllScore(){
+        setPlayersScore(v => ({
+            ...v, 
+            leftPlayerScore: 0,
+            rightPlayerScore: 0,
+            leftPlayerMatchScore: 0,
+            rightPlayerMatchScore: 0,
+            whoServeFirst: "left"
+        }));
+
+        initScoreScreen(0, 0)
+        initMatchScoreScreen(0, 0);
+    }
+
     function nextMatctStart(){
         const whoWin = determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"]);
 
@@ -94,12 +106,13 @@ function BigScoreBoard(){
             rightPlayerScore: 0,
             leftPlayerMatchScore: newLeftMatchScore,
             rightPlayerMatchScore: newRightMatchScore,
+            whoServeFirst: v.whoServeFirst === "right" ? "left" : "right"
         }));
 
         initMatchScoreScreen(newLeftMatchScore, newRightMatchScore);
-
         initScoreScreen(0, 0);
-        setWhoServe( whoServe === "right" ? "left" : "right" );
+
+        // setWhoServe( whoServe === "right" ? "left" : "right" );
     }
 
     function swapMatchScore(){
@@ -110,18 +123,15 @@ function BigScoreBoard(){
             ...v, 
             leftPlayerMatchScore: newLeftMatchScore,
             rightPlayerMatchScore: newRightMatchScore,
+            whoServeFirst: v.whoServeFirst === "right" ? "left" : "right"
         }));
 
         initMatchScoreScreen(newLeftMatchScore, newRightMatchScore)
-        setWhoServe( whoServe === "right" ? "left" : "right" );
+        // setWhoServe( whoServe === "right" ? "left" : "right" );
     }
 
     useEffect(() => {
-        determineWhoServeWithScore(playersScore!, whoServe === "left")
-    }, [playersScore, whoServe]);
-
-    useEffect(() => {
-        console.log(playersScore)
+        determineWhoServeWithScore(playersScore!)
     }, [playersScore]);
 
     return (
@@ -157,10 +167,14 @@ function BigScoreBoard(){
                 </ActionIcon>
                 </Tooltip>
 
+                <Tooltip label="Reset All Score">
+                <ActionIcon variant="light" aria-label="Reset All Score" onClick={() => resetAllScore()} >
+                    <IconServerCog style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                </ActionIcon>
+                </Tooltip>
+
                 <ColorToggleBtn />
             </Group>
-
-
 
             <Radio.Group
                 value={playersScore!.whoServeFirst}
