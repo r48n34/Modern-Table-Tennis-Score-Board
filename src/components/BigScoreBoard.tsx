@@ -70,7 +70,7 @@ function BigScoreBoard(){
         emblaRightMatchScore?.scrollTo(newRightMatchScore, false);
     }
 
-    function resetScore(){
+    function resetGameScore(){
         setPlayersScore(v => ({
             ...v, 
             leftPlayerScore: 0,
@@ -154,16 +154,15 @@ function BigScoreBoard(){
                 </Tooltip>
 
 
-                <Tooltip label="Swap Match Score">
-                <ActionIcon variant="light" aria-label="Swap Match Score" onClick={() => swapMatchScore()} >
-                    <IconRecycle style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                <Tooltip label="Reset Score">
+                <ActionIcon variant="light" aria-label="Reset Game Score" onClick={() => resetGameScore()} >
+                    <IconZoomReset style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>
                 </Tooltip>
 
-
-                <Tooltip label="Reset Score">
-                <ActionIcon variant="light" aria-label="Reset Score" onClick={() => resetScore()} >
-                    <IconZoomReset style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                <Tooltip label="Swap Match Score">
+                <ActionIcon variant="light" aria-label="Swap Match Score" onClick={() => swapMatchScore()} >
+                    <IconRecycle style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>
                 </Tooltip>
 
