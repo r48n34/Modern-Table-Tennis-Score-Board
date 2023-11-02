@@ -1,7 +1,7 @@
 import { Carousel } from '@mantine/carousel';
 import { Box, Card, Text, Stack } from '@mantine/core';
 import { EmblaCarouselType } from 'embla-carousel-react';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 // import { useEffect, useState } from 'react';
 
 type ScoreDragProps = {
