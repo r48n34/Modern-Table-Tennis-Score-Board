@@ -137,7 +137,7 @@ function BigScoreBoard(){
     return (
         <>
         <Container fluid>
-            <Text ta="center" fz={48}>
+            <Text ta="center" fz={48} fw={300}>
                 TT Score Board
             </Text>
 
@@ -154,7 +154,7 @@ function BigScoreBoard(){
                 </Tooltip>
 
 
-                <Tooltip label="Reset Score">
+                <Tooltip label="Reset Game Score">
                 <ActionIcon variant="light" aria-label="Reset Game Score" onClick={() => resetGameScore()} >
                     <IconZoomReset style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>
@@ -190,7 +190,7 @@ function BigScoreBoard(){
             </Radio.Group>
 
             <Grid mt={12}>
-                <Grid.Col span={5}>
+                <Grid.Col span={{ base: 5 }}>
                     <ScoreDrag
                         initialSlide={playersScore!.leftPlayerScore}
                         changeScore={changeScore} 
@@ -206,23 +206,25 @@ function BigScoreBoard(){
                     }
                 </Grid.Col>
 
-                <Grid.Col span={2}>
+                <Grid.Col span={{ base: 2 }}>
                     <Grid>
-                        <Grid.Col span={6}>
+                        <Grid.Col span={{ base: 6 }}>
                         <ScoreDrag 
                             initialSlide={playersScore!.leftPlayerMatchScore}
                             player={"leftPlayerMatchScore"}
                             changeScore={changeScore}
                             height={230}
+                            fontSize={8}
                             setEmbla={setEmblaLeftMatchScore}
                         />
                         </Grid.Col>
-                        <Grid.Col span={6}>
+                        <Grid.Col span={{ base: 6 }}>
                             <ScoreDrag 
                                 initialSlide={playersScore!.rightPlayerMatchScore}
                                 player={"rightPlayerMatchScore"}
                                 changeScore={changeScore}
                                 height={230}
+                                fontSize={8}
                                 setEmbla={setEmblaRightMatchScore}
                             />
                         </Grid.Col>
@@ -240,7 +242,7 @@ function BigScoreBoard(){
      
                 </Grid.Col>
 
-                <Grid.Col span={5}>
+                <Grid.Col span={{ base: 5 }}>
                     <ScoreDrag
                         initialSlide={playersScore!.rightPlayerScore} 
                         changeScore={changeScore}

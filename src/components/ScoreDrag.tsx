@@ -8,11 +8,12 @@ type ScoreDragProps = {
     changeScore?: Function;
     height?: number;
     initialSlide: number;
+    fontSize?: number;
     player: string;
     setEmbla?: (embla: EmblaCarouselType) => void;
 }
 
-function ScoreDrag({ changeScore, player = "", height = 350, initialSlide = 0, setEmbla }: ScoreDragProps){
+function ScoreDrag({ changeScore, player = "", height = 350, initialSlide = 0, fontSize = 12, setEmbla }: ScoreDragProps){
 
     const initialSlideScore = useMemo(() => initialSlide, []);
 
@@ -23,6 +24,8 @@ function ScoreDrag({ changeScore, player = "", height = 350, initialSlide = 0, s
     return (
         <Box w={"100%"} p={4}>
         <Carousel
+            // mt={2}
+            align="end"
             initialSlide={initialSlideScore}
             slideGap="md"
             getEmblaApi={!!setEmbla ? setEmbla : () => {}}
@@ -33,11 +36,11 @@ function ScoreDrag({ changeScore, player = "", height = 350, initialSlide = 0, s
         >
             {[...Array(30)].map((_,i) => i).map( v => (
                 <Carousel.Slide key={v}>
-                    <Card shadow="sm" padding="lg" radius="md" withBorder style={{ height: "100%", width: "100%" }}>
+                    <Card shadow="sm" padding="md" radius="md" withBorder style={{ height: "100%", width: "100%" }}>
                     <Stack align="center" justify='center' h={"100%"}>
-                    <Text fz={"12vh"}>
-                        {v}
-                    </Text>
+                        <Text fz={fontSize + "vh"}>
+                            {v}
+                        </Text>
                     </Stack>
                     </Card>
                 </Carousel.Slide>
