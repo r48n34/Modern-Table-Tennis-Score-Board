@@ -19,7 +19,8 @@
     "@use-gesture/react": "^10.3.0",
     "embla-carousel-react": "^8.0.0-rc14",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "superjson": "^2.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
