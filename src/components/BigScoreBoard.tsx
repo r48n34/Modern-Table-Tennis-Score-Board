@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip } from "@mantine/core"
+import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip, Menu, rem } from "@mantine/core"
 import ScoreDrag from "./ScoreDrag"
 import { EmblaCarouselType } from "embla-carousel-react";
 import { useLocalStorage } from '@mantine/hooks';
 import { useStopwatch } from 'react-timer-hook';
 
-import { IconArrowsExchange, IconArrowsExchange2, IconBounceLeft, IconBounceRight, IconPingPong, IconPlayerTrackNextFilled, IconRepeat, IconServerCog, IconSwords, IconZoomReset } from "@tabler/icons-react";
+import { IconArrowsExchange, IconArrowsExchange2, IconBounceLeft, IconBounceRight, IconCategory, IconPingPong, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerTrackNextFilled, IconRepeat, IconServerCog, IconSwords, IconZoomReset } from "@tabler/icons-react";
 import { determineWhoServe, determineWhoWin } from "../utils/tableTennisUtils";
 import { ScoreObject } from "../interface/tableTennisInterface";
 import ColorToggleBtn from "./common/ColorToggleBtn";
@@ -81,7 +81,7 @@ function BigScoreBoard() {
         emblaRightMatchScore?.scrollTo(newRightMatchScore, false);
     }
 
-    function resetMatchScore(){
+    function resetMatchScore() {
         setPlayersScore(v => ({
             ...v,
             leftPlayerMatchScore: 0,
@@ -175,13 +175,13 @@ function BigScoreBoard() {
         determineWhoServeWithScore(playersScore!);
 
         const whoWon = determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"])
-        if(whoWon !== ""){
+        if (whoWon !== "") {
             pause()
         }
-        else if(whoWon === "" && !isRunning){
+        else if (whoWon === "" && !isRunning) {
             start()
         }
-        
+
     }, [playersScore]);
 
     return (
@@ -190,35 +190,96 @@ function BigScoreBoard() {
 
                 <Group justify="flex-end" mt={12}>
 
-                    <Tooltip label="Reset Game Score">
-                        <ActionIcon variant="light" aria-label="Reset Game Score" onClick={() => resetGameScore()} >
-                            <IconZoomReset style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                        </ActionIcon>
-                    </Tooltip>
+                    <Menu shadow="md" width={200}>
+                        <Menu.Target>
+                            <ActionIcon variant="light" aria-label="Menu" >
+                                <IconCategory style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                            </ActionIcon>
+                        </Menu.Target>
 
-                    <Tooltip label="Reset Match Score">
-                        <ActionIcon variant="light" aria-label="Reset Match Score" onClick={() => resetMatchScore()} >
-                            <IconRepeat style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                        </ActionIcon>
-                    </Tooltip>
+                        <Menu.Dropdown>
 
-                    <Tooltip label="Swap Match Score">
-                        <ActionIcon variant="light" aria-label="Swap Match Score" onClick={() => swapMatchScore()} >
-                            <IconArrowsExchange style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                        </ActionIcon>
-                    </Tooltip>
+                            <Menu.Label>
+                                Reset
+                            </Menu.Label>
 
-                    <Tooltip label="Swap Game Score">
-                        <ActionIcon variant="light" aria-label="Swap Game Score" onClick={() => swapGameScore()} >
-                            <IconArrowsExchange2 style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                        </ActionIcon>
-                    </Tooltip>
+                            <Menu.Item 
+                                leftSection={<IconZoomReset style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => resetGameScore()}
+                            >
+                                Reset Game Score
+                            </Menu.Item>
 
-                    <Tooltip label="Reset All Score">
-                        <ActionIcon variant="light" aria-label="Reset All Score" onClick={() => resetAllScore()} >
-                            <IconServerCog style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                        </ActionIcon>
-                    </Tooltip>
+                            <Menu.Item 
+                                leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => resetMatchScore()}
+                            >
+                                Reset Match Score
+                            </Menu.Item>
+
+                            <Menu.Item 
+                                leftSection={<IconServerCog style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => resetAllScore()}
+                            >
+                                Reset All Score
+                            </Menu.Item>
+
+                            <Menu.Label>
+                                Swap
+                            </Menu.Label>
+
+                            <Menu.Item 
+                                leftSection={<IconArrowsExchange style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => swapMatchScore()}
+                            >
+                                Swap Match Score
+                            </Menu.Item>
+
+                            <Menu.Item 
+                                leftSection={<IconArrowsExchange2 style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => swapGameScore()}
+                            >
+                                Swap Game Score
+                            </Menu.Item>
+
+                            <Menu.Label>
+                                Timer
+                            </Menu.Label>
+
+                            <Menu.Item 
+                                leftSection={<IconPlayerPlayFilled style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => {
+                                    toast.success("Timer Started")
+                                    start()
+                                }}
+                            >
+                                Start Timer
+                            </Menu.Item>
+
+                            <Menu.Item 
+                                leftSection={<IconPlayerPauseFilled style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => {
+                                    toast.success("Timer Stopped")
+                                    pause()
+                                }}
+                            >
+                                Pause Timer
+                            </Menu.Item>
+
+                            <Menu.Item 
+                                leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => {
+                                    toast.success("Timer Resetted")
+                                    reset()
+                                }}
+                            >
+                                Reset Timer
+                            </Menu.Item>
+
+
+    
+                        </Menu.Dropdown>
+                    </Menu>
 
                     <ColorToggleBtn />
 
@@ -231,7 +292,7 @@ function BigScoreBoard() {
                     Modern table Tennis Score Board for you
                 </Text>
 
-               
+
 
                 <Group justify="center" mt={12}>
                     <Tooltip label="Start Next Match">
