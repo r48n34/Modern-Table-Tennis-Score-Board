@@ -176,6 +176,7 @@ function BigScoreBoard(){
             </Group>
 
             <Radio.Group
+                mt={16}
                 value={playersScore!.whoServeFirst}
                 onChange={ (v: string) => !!playersScore && setPlayersScore({
                     ...playersScore,
@@ -189,8 +190,8 @@ function BigScoreBoard(){
                 </Group>
             </Radio.Group>
 
-            <Grid mt={12}>
-                <Grid.Col span={{ base: 5 }}>
+            <Grid mt={16}>
+                <Grid.Col span={{ base: 6, md: 5, lg: 5 }} order={{ base: 2, md: 1, lg: 1 }}>
                     <ScoreDrag
                         initialSlide={playersScore!.leftPlayerScore}
                         changeScore={changeScore} 
@@ -206,9 +207,13 @@ function BigScoreBoard(){
                     }
                 </Grid.Col>
 
-                <Grid.Col span={{ base: 2 }}>
+                <Grid.Col span={{ base: 12, md: 2, lg: 2 }} order={{ base: 1, md: 2, lg: 2 }}>
                     <Grid>
-                        <Grid.Col span={{ base: 6 }}>
+
+                        {/* <Grid.Col span={{ base: 3, md: 0, lg: 0 }}>
+                        </Grid.Col> */}
+
+                        <Grid.Col span={{ base: 3, md: 6, lg: 6 }} offset={{ base: 3, md: 0, lg: 0 }}>
                         <ScoreDrag 
                             initialSlide={playersScore!.leftPlayerMatchScore}
                             player={"leftPlayerMatchScore"}
@@ -218,7 +223,8 @@ function BigScoreBoard(){
                             setEmbla={setEmblaLeftMatchScore}
                         />
                         </Grid.Col>
-                        <Grid.Col span={{ base: 6 }}>
+
+                        <Grid.Col span={{ base: 3, md: 6, lg: 6 }}>
                             <ScoreDrag 
                                 initialSlide={playersScore!.rightPlayerMatchScore}
                                 player={"rightPlayerMatchScore"}
@@ -228,6 +234,10 @@ function BigScoreBoard(){
                                 setEmbla={setEmblaRightMatchScore}
                             />
                         </Grid.Col>
+
+                        {/* <Grid.Col span={{ base: 3, md: 0, lg: 0 }}>
+                        </Grid.Col> */}
+
                     </Grid>
 
                     {
@@ -242,7 +252,7 @@ function BigScoreBoard(){
      
                 </Grid.Col>
 
-                <Grid.Col span={{ base: 5 }}>
+                <Grid.Col span={{ base: 6, md: 5, lg: 5 }} order={{ base: 3, md: 3, lg: 3 }}>
                     <ScoreDrag
                         initialSlide={playersScore!.rightPlayerScore} 
                         changeScore={changeScore}
