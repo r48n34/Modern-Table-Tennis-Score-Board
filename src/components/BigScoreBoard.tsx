@@ -3,12 +3,14 @@ import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip 
 import ScoreDrag from "./ScoreDrag"
 import { EmblaCarouselType } from "embla-carousel-react";
 import { useLocalStorage } from '@mantine/hooks';
+import { useStopwatch } from 'react-timer-hook';
 
-import { IconBounceLeft, IconBounceRight, IconPingPong, IconPlayerTrackNextFilled, IconRecycle, IconServerCog, IconSwords, IconZoomReset } from "@tabler/icons-react";
+import { IconArrowsExchange, IconArrowsExchange2, IconBounceLeft, IconBounceRight, IconPingPong, IconPlayerTrackNextFilled, IconRepeat, IconServerCog, IconSwords, IconZoomReset } from "@tabler/icons-react";
 import { determineWhoServe, determineWhoWin } from "../utils/tableTennisUtils";
 import { ScoreObject } from "../interface/tableTennisInterface";
 import ColorToggleBtn from "./common/ColorToggleBtn";
 import superjson from 'superjson';
+import toast from "react-hot-toast";
 
 const playersScoreDefaultValue = {
     leftPlayerScore: 0,
@@ -20,17 +22,26 @@ const playersScoreDefaultValue = {
     whoServeFirst: "left" as "left" | "right"
 }
 
-function BigScoreBoard(){
-    
-    // embla API useState
-    const [ emblaLeftScore, setEmblaLeftScore ] = useState<EmblaCarouselType | null>(null);
-    const [ emblaRightScore, setEmblaRightScore ] = useState<EmblaCarouselType| null>(null);
+function BigScoreBoard() {
 
-    const [ emblaLeftMatchScore, setEmblaLeftMatchScore   ] = useState<EmblaCarouselType | null>(null);
-    const [ emblaRightMatchScore, setEmblaRightMatchScore ] = useState<EmblaCarouselType | null>(null);
+    const {
+        seconds,
+        minutes,
+        start,
+        isRunning,
+        pause,
+        reset,
+    } = useStopwatch({ autoStart: true });
+
+    // embla API useState
+    const [emblaLeftScore, setEmblaLeftScore] = useState<EmblaCarouselType | null>(null);
+    const [emblaRightScore, setEmblaRightScore] = useState<EmblaCarouselType | null>(null);
+
+    const [emblaLeftMatchScore, setEmblaLeftMatchScore] = useState<EmblaCarouselType | null>(null);
+    const [emblaRightMatchScore, setEmblaRightMatchScore] = useState<EmblaCarouselType | null>(null);
 
     // General score
-    const [ playersScore, setPlayersScore ] = useLocalStorage<ScoreObject>({
+    const [playersScore, setPlayersScore] = useLocalStorage<ScoreObject>({
         key: 'players-score-scheme',
         defaultValue: playersScoreDefaultValue,
         serialize: superjson.stringify,
@@ -39,15 +50,15 @@ function BigScoreBoard(){
     });
 
     // const [ whoServe, setWhoServe ] = useState<"left" | "right">("left");
-    const [ isCurrentFirstPlayerServe, setIsCurrentFirstPlayerServe ] = useState<boolean>(true);
+    const [isCurrentFirstPlayerServe, setIsCurrentFirstPlayerServe] = useState<boolean>(true);
 
-    function changeScore(score: number, player: keyof ScoreObject){
-        setPlayersScore( v => {
+    function changeScore(score: number, player: keyof ScoreObject) {
+        setPlayersScore(v => {
             const newPlayer: ScoreObject = {
                 ...v,
             }
 
-            if(player !== "whoServeFirst"){
+            if (player !== "whoServeFirst") {
                 newPlayer[player] = score;
             }
 
@@ -55,34 +66,46 @@ function BigScoreBoard(){
         });
     }
 
-    function determineWhoServeWithScore(playersScore: ScoreObject){
+    function determineWhoServeWithScore(playersScore: ScoreObject) {
         const whoServe = determineWhoServe(playersScore);
         setIsCurrentFirstPlayerServe(whoServe === "left");
     }
 
-    function initScoreScreen(newLeftScore: number, newRightScore: number){
+    function initScoreScreen(newLeftScore: number, newRightScore: number) {
         emblaLeftScore?.scrollTo(newLeftScore, false)
         emblaRightScore?.scrollTo(newRightScore, false)
     }
 
-    function initMatchScoreScreen(newLeftMatchScore: number, newRightMatchScore: number){
+    function initMatchScoreScreen(newLeftMatchScore: number, newRightMatchScore: number) {
         emblaLeftMatchScore?.scrollTo(newLeftMatchScore, false);
         emblaRightMatchScore?.scrollTo(newRightMatchScore, false);
     }
 
-    function resetGameScore(){
+    function resetMatchScore(){
         setPlayersScore(v => ({
-            ...v, 
+            ...v,
+            leftPlayerMatchScore: 0,
+            rightPlayerMatchScore: 0,
+        }));
+
+        initMatchScoreScreen(0, 0)
+        toast.success('Match score resetted');
+    }
+
+    function resetGameScore() {
+        setPlayersScore(v => ({
+            ...v,
             leftPlayerScore: 0,
             rightPlayerScore: 0,
         }));
 
-        initScoreScreen(0, 0)
+        toast.success('Game score resetted');
+        initScoreScreen(0, 0);
     }
 
-    function resetAllScore(){
+    function resetAllScore() {
         setPlayersScore(v => ({
-            ...v, 
+            ...v,
             leftPlayerScore: 0,
             rightPlayerScore: 0,
             leftPlayerMatchScore: 0,
@@ -90,15 +113,16 @@ function BigScoreBoard(){
             whoServeFirst: "left"
         }));
 
+        toast.success('All score has been resetted');
         initScoreScreen(0, 0)
         initMatchScoreScreen(0, 0);
     }
 
-    function nextMatctStart(){
+    function nextMatctStart() {
         const whoWin = determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"]);
 
-        const newLeftMatchScore  = playersScore!["rightPlayerMatchScore"] + ( whoWin === "Right Won >" ? 1 : 0);
-        const newRightMatchScore = playersScore!["leftPlayerMatchScore"] +  ( whoWin === "< Left Won"  ? 1 : 0);
+        const newLeftMatchScore = playersScore!["rightPlayerMatchScore"] + (whoWin === "Right Won >" ? 1 : 0);
+        const newRightMatchScore = playersScore!["leftPlayerMatchScore"] + (whoWin === "< Left Won" ? 1 : 0);
 
         setPlayersScore(v => ({
             ...v,
@@ -109,172 +133,223 @@ function BigScoreBoard(){
             whoServeFirst: v.whoServeFirst === "right" ? "left" : "right"
         }));
 
+        toast.success('Next match!');
+        reset()
         initMatchScoreScreen(newLeftMatchScore, newRightMatchScore);
         initScoreScreen(0, 0);
 
         // setWhoServe( whoServe === "right" ? "left" : "right" );
     }
 
-    function swapMatchScore(){
-        const newLeftMatchScore  = playersScore!["rightPlayerMatchScore"]
+    function swapMatchScore() {
+        const newLeftMatchScore = playersScore!["rightPlayerMatchScore"]
         const newRightMatchScore = playersScore!["leftPlayerMatchScore"]
 
         setPlayersScore(v => ({
-            ...v, 
+            ...v,
             leftPlayerMatchScore: newLeftMatchScore,
             rightPlayerMatchScore: newRightMatchScore,
-            whoServeFirst: v.whoServeFirst === "right" ? "left" : "right"
+            // whoServeFirst: v.whoServeFirst === "right" ? "left" : "right"
         }));
 
+        toast.success('Match score swapped!');
         initMatchScoreScreen(newLeftMatchScore, newRightMatchScore)
-        // setWhoServe( whoServe === "right" ? "left" : "right" );
+    }
+
+    function swapGameScore() {
+        const newLeftScore = playersScore!["rightPlayerScore"]
+        const newRightScore = playersScore!["leftPlayerScore"]
+
+        setPlayersScore(v => ({
+            ...v,
+            leftPlayerScore: newLeftScore,
+            rightPlayerScore: newRightScore,
+            // whoServeFirst: v.whoServeFirst === "right" ? "left" : "right"
+        }));
+
+        toast.success('Game score swapped!');
+        initScoreScreen(newLeftScore, newRightScore);
     }
 
     useEffect(() => {
-        determineWhoServeWithScore(playersScore!)
+        determineWhoServeWithScore(playersScore!);
+
+        const whoWon = determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"])
+        if(whoWon !== ""){
+            pause()
+        }
+        else if(whoWon === "" && !isRunning){
+            start()
+        }
+        
     }, [playersScore]);
 
     return (
         <>
-        <Container fluid>
-            <Text ta="center" fz={48} fw={300}>
-                TT Score Board
-            </Text>
+            <Container fluid>
 
-            <Group justify="center">
-                <Tooltip label="Start Next Match">
-                <ActionIcon 
-                    variant="light"
-                    aria-label="Start Next Match"
-                    onClick={() => nextMatctStart()}
-                    disabled={determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"]) === ""}
-                >
-                    <IconPlayerTrackNextFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-                </Tooltip>
+                <Group justify="flex-end" mt={12}>
 
+                    <Tooltip label="Reset Game Score">
+                        <ActionIcon variant="light" aria-label="Reset Game Score" onClick={() => resetGameScore()} >
+                            <IconZoomReset style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </ActionIcon>
+                    </Tooltip>
 
-                <Tooltip label="Reset Game Score">
-                <ActionIcon variant="light" aria-label="Reset Game Score" onClick={() => resetGameScore()} >
-                    <IconZoomReset style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-                </Tooltip>
+                    <Tooltip label="Reset Match Score">
+                        <ActionIcon variant="light" aria-label="Reset Match Score" onClick={() => resetMatchScore()} >
+                            <IconRepeat style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </ActionIcon>
+                    </Tooltip>
 
-                <Tooltip label="Swap Match Score">
-                <ActionIcon variant="light" aria-label="Swap Match Score" onClick={() => swapMatchScore()} >
-                    <IconRecycle style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-                </Tooltip>
+                    <Tooltip label="Swap Match Score">
+                        <ActionIcon variant="light" aria-label="Swap Match Score" onClick={() => swapMatchScore()} >
+                            <IconArrowsExchange style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </ActionIcon>
+                    </Tooltip>
 
-                <Tooltip label="Reset All Score">
-                <ActionIcon variant="light" aria-label="Reset All Score" onClick={() => resetAllScore()} >
-                    <IconServerCog style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-                </Tooltip>
+                    <Tooltip label="Swap Game Score">
+                        <ActionIcon variant="light" aria-label="Swap Game Score" onClick={() => swapGameScore()} >
+                            <IconArrowsExchange2 style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </ActionIcon>
+                    </Tooltip>
 
-                <ColorToggleBtn />
-            </Group>
+                    <Tooltip label="Reset All Score">
+                        <ActionIcon variant="light" aria-label="Reset All Score" onClick={() => resetAllScore()} >
+                            <IconServerCog style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </ActionIcon>
+                    </Tooltip>
 
-            <Radio.Group
-                mt={16}
-                value={playersScore!.whoServeFirst}
-                onChange={ (v: string) => !!playersScore && setPlayersScore({
-                    ...playersScore,
-                    whoServeFirst: v as "left" | "right"
-                })}
-                withAsterisk
-            >
-                <Group justify="space-between">
-                    <Radio value="left"  label={ <><IconPingPong size={18}/> First Serve </>} />
-                    <Radio value="right" label={ <><IconPingPong size={18}/> First Serve </>} />
+                    <ColorToggleBtn />
+
                 </Group>
-            </Radio.Group>
 
-            <Grid mt={16}>
-                <Grid.Col span={{ base: 6, md: 5, lg: 5 }} order={{ base: 2, md: 1, lg: 1 }}>
-                    <ScoreDrag
-                        initialSlide={playersScore!.leftPlayerScore}
-                        changeScore={changeScore} 
-                        player={"leftPlayerScore"} 
-                        setEmbla={setEmblaLeftScore} 
-                    />
-                    {isCurrentFirstPlayerServe 
-                        && (
-                        <Badge color="blue" size="lg" mt={6}>
-                            <IconBounceLeft size={12}/> Serve
-                        </Badge>
-                        )
-                    }
-                </Grid.Col>
+                <Text ta="center" fz={48} fw={300}>
+                    TT Score Board
+                </Text>
+                <Text ta="center" fz={14} fw={300} c="dimmed" mt={-8}>
+                    Modern table Tennis Score Board for you
+                </Text>
 
-                <Grid.Col span={{ base: 12, md: 2, lg: 2 }} order={{ base: 1, md: 2, lg: 2 }}>
-                    <Grid>
+               
 
-                        {/* <Grid.Col span={{ base: 3, md: 0, lg: 0 }}>
-                        </Grid.Col> */}
+                <Group justify="center" mt={12}>
+                    <Tooltip label="Start Next Match">
+                        <ActionIcon
+                            variant="light"
+                            aria-label="Start Next Match"
+                            onClick={() => nextMatctStart()}
+                            disabled={determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"]) === ""}
+                        >
+                            <IconPlayerTrackNextFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </ActionIcon>
+                    </Tooltip>
+                </Group>
 
-                        <Grid.Col span={{ base: 3, md: 6, lg: 6 }} offset={{ base: 3, md: 0, lg: 0 }}>
-                        <ScoreDrag 
-                            initialSlide={playersScore!.leftPlayerMatchScore}
-                            player={"leftPlayerMatchScore"}
+                <Radio.Group
+                    mt={16}
+                    value={playersScore!.whoServeFirst}
+                    onChange={(v: string) => !!playersScore && setPlayersScore({
+                        ...playersScore,
+                        whoServeFirst: v as "left" | "right"
+                    })}
+                    withAsterisk
+                >
+                    <Group justify="space-between">
+                        <Radio value="left" label={<><IconPingPong size={18} /> First Serve </>} />
+                        <Radio value="right" label={<><IconPingPong size={18} /> First Serve </>} />
+                    </Group>
+                </Radio.Group>
+
+                <Grid mt={16}>
+                    <Grid.Col span={{ base: 6, md: 5, lg: 5 }} order={{ base: 2, md: 1, lg: 1 }}>
+                        <ScoreDrag
+                            initialSlide={playersScore!.leftPlayerScore}
                             changeScore={changeScore}
-                            height={230}
-                            fontSize={8}
-                            setEmbla={setEmblaLeftMatchScore}
+                            player={"leftPlayerScore"}
+                            setEmbla={setEmblaLeftScore}
                         />
-                        </Grid.Col>
+                        {isCurrentFirstPlayerServe
+                            && (
+                                <Badge color="blue" size="lg" mt={6}>
+                                    <IconBounceLeft size={12} /> Serve
+                                </Badge>
+                            )
+                        }
+                    </Grid.Col>
 
-                        <Grid.Col span={{ base: 3, md: 6, lg: 6 }}>
-                            <ScoreDrag 
-                                initialSlide={playersScore!.rightPlayerMatchScore}
-                                player={"rightPlayerMatchScore"}
-                                changeScore={changeScore}
-                                height={230}
-                                fontSize={8}
-                                setEmbla={setEmblaRightMatchScore}
-                            />
-                        </Grid.Col>
+                    <Grid.Col span={{ base: 12, md: 2, lg: 2 }} order={{ base: 1, md: 2, lg: 2 }}>
+                        <Grid>
 
-                        {/* <Grid.Col span={{ base: 3, md: 0, lg: 0 }}>
+                            {/* <Grid.Col span={{ base: 3, md: 0, lg: 0 }}>
                         </Grid.Col> */}
 
-                    </Grid>
+                            <Grid.Col span={{ base: 3, md: 6, lg: 6 }} offset={{ base: 3, md: 0, lg: 0 }}>
+                                <ScoreDrag
+                                    initialSlide={playersScore!.leftPlayerMatchScore}
+                                    player={"leftPlayerMatchScore"}
+                                    changeScore={changeScore}
+                                    height={230}
+                                    fontSize={6}
+                                    setEmbla={setEmblaLeftMatchScore}
+                                />
+                            </Grid.Col>
 
-                    {
-                        playersScore!["leftPlayerScore"] >= 10 
-                        && playersScore!["rightPlayerScore"] >= 10
-                        && (<Text ta="center" fz={32} fw={300}> <IconSwords /> Deuce </Text>)
-                    }
-                    
-                    <Text ta="center" fz={32}> 
-                        { determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"]) }
-                    </Text> 
-     
-                </Grid.Col>
+                            <Grid.Col span={{ base: 3, md: 6, lg: 6 }}>
+                                <ScoreDrag
+                                    initialSlide={playersScore!.rightPlayerMatchScore}
+                                    player={"rightPlayerMatchScore"}
+                                    changeScore={changeScore}
+                                    height={230}
+                                    fontSize={6}
+                                    setEmbla={setEmblaRightMatchScore}
+                                />
+                            </Grid.Col>
 
-                <Grid.Col span={{ base: 6, md: 5, lg: 5 }} order={{ base: 3, md: 3, lg: 3 }}>
-                    <ScoreDrag
-                        initialSlide={playersScore!.rightPlayerScore} 
-                        changeScore={changeScore}
-                        player={"rightPlayerScore"}
-                        setEmbla={setEmblaRightScore}
-                    />
-                    {!isCurrentFirstPlayerServe 
-                        && (
-                            <Group justify="flex-end">
-                            <Badge color="blue" size="lg" mt={6}>
-                                <IconBounceRight size={12}/> Serve
-                            </Badge>
-                            </Group>
-                        )
-                    }
-                </Grid.Col>
-            </Grid>
-        </Container>
-        
-        <Space h="md" />
+                            {/* <Grid.Col span={{ base: 3, md: 0, lg: 0 }}>
+                        </Grid.Col> */}
+
+                        </Grid>
+
+                        {
+                            playersScore!["leftPlayerScore"] >= 10
+                            && playersScore!["rightPlayerScore"] >= 10
+                            && (<Text ta="center" fz={32} fw={300}> <IconSwords /> Deuce </Text>)
+                        }
+
+                        <Text ta="center" fz={20} c="dimmed">
+                            {minutes >= 10 ? minutes : "0" + minutes}:{seconds >= 10 ? seconds : "0" + seconds}
+                        </Text>
+
+                        <Text ta="center" fz={32}>
+                            {determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"])}
+                        </Text>
+
+                    </Grid.Col>
+
+                    <Grid.Col span={{ base: 6, md: 5, lg: 5 }} order={{ base: 3, md: 3, lg: 3 }}>
+                        <ScoreDrag
+                            initialSlide={playersScore!.rightPlayerScore}
+                            changeScore={changeScore}
+                            player={"rightPlayerScore"}
+                            setEmbla={setEmblaRightScore}
+                        />
+                        {!isCurrentFirstPlayerServe
+                            && (
+                                <Group justify="flex-end">
+                                    <Badge color="blue" size="lg" mt={6}>
+                                        <IconBounceRight size={12} /> Serve
+                                    </Badge>
+                                </Group>
+                            )
+                        }
+                    </Grid.Col>
+                </Grid>
+            </Container>
+
+            <Space h="md" />
         </>
     )
 }
-    
+
 export default BigScoreBoard

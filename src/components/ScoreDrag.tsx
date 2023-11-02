@@ -13,7 +13,7 @@ type ScoreDragProps = {
     setEmbla?: (embla: EmblaCarouselType) => void;
 }
 
-function ScoreDrag({ changeScore, player = "", height = 350, initialSlide = 0, fontSize = 12, setEmbla }: ScoreDragProps){
+function ScoreDrag({ changeScore, player = "", height = 350, initialSlide = 0, fontSize = 9, setEmbla }: ScoreDragProps){
 
     const initialSlideScore = useMemo(() => initialSlide, []);
 
@@ -34,11 +34,12 @@ function ScoreDrag({ changeScore, player = "", height = 350, initialSlide = 0, f
             withControls={false}
             onSlideChange={ (e:number) => changeSlice(e) }
         >
-            {[...Array(30)].map((_,i) => i).map( v => (
+            {[...Array(99)].map((_,i) => i).map( v => (
                 <Carousel.Slide key={v}>
                     <Card shadow="sm" padding="md" radius="md" withBorder style={{ height: "100%", width: "100%" }}>
                     <Stack align="center" justify='center' h={"100%"}>
-                        <Text fz={fontSize + "vh"}>
+                        {/* <Text fz={"9vw"}> */}
+                        <Text fz={fontSize + "vw"}>
                             {v}
                         </Text>
                     </Stack>
