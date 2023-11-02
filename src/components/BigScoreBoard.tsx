@@ -15,7 +15,9 @@ const playersScoreDefaultValue = {
     leftPlayerMatchScore: 0,
 
     rightPlayerScore: 0,
-    rightPlayerMatchScore: 0
+    rightPlayerMatchScore: 0,
+
+    whoServeFirst: "left" as "left" | "right"
 }
 
 function BigScoreBoard(){
@@ -43,8 +45,13 @@ function BigScoreBoard(){
         setPlayersScore( v => {
 
             // console.log("CHANGEEE");
-            const newPlayer:ScoreObject = {...v}
-            newPlayer[player] = score;
+            const newPlayer: ScoreObject = {
+                ...v,
+            }
+
+            if(player !== "whoServeFirst"){
+                newPlayer[player] = score;
+            }
 
             return newPlayer
         });
@@ -81,12 +88,13 @@ function BigScoreBoard(){
         const newLeftMatchScore  = playersScore!["rightPlayerMatchScore"] + ( whoWin === "Right Won >" ? 1 : 0);
         const newRightMatchScore = playersScore!["leftPlayerMatchScore"] +  ( whoWin === "< Left Won"  ? 1 : 0);
 
-        setPlayersScore({
+        setPlayersScore(v => ({
+            ...v,
             leftPlayerScore: 0,
             rightPlayerScore: 0,
             leftPlayerMatchScore: newLeftMatchScore,
             rightPlayerMatchScore: newRightMatchScore,
-        });
+        }));
 
         initMatchScoreScreen(newLeftMatchScore, newRightMatchScore);
 
@@ -111,6 +119,10 @@ function BigScoreBoard(){
     useEffect(() => {
         determineWhoServeWithScore(playersScore!, whoServe === "left")
     }, [playersScore, whoServe]);
+
+    useEffect(() => {
+        console.log(playersScore)
+    }, [playersScore]);
 
     return (
         <>
@@ -151,8 +163,11 @@ function BigScoreBoard(){
 
 
             <Radio.Group
-                value={whoServe}
-                onChange={ (v: string) => setWhoServe(v as "left"| "right") }
+                value={playersScore!.whoServeFirst}
+                onChange={ (v: string) => !!playersScore && setPlayersScore({
+                    ...playersScore,
+                    whoServeFirst: v as "left" | "right"
+                })}
                 withAsterisk
             >
                 <Group justify="space-between">
