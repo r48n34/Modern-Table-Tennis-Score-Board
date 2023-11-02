@@ -6,7 +6,6 @@ function App() {
         <BigScoreBoard/>
         </>
     )
-    
 }
 
 export default App

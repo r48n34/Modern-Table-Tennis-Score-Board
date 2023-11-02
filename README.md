@@ -12,6 +12,11 @@ Better online table tennis score board, free forever, open sources.
 - [x] Mobile UI friendly 
 - [x] More features in future
 
+## Todo
+- [ ] Record History match
+- [ ] Share history in social platform
+- [ ] Score mark for more point obtain 
+
 
 ## References
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
