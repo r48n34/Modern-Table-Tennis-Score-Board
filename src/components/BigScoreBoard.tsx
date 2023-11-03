@@ -23,7 +23,13 @@ const playersScoreDefaultValue = {
     whoServeFirst: "left" as "left" | "right"
 }
 
-function BigScoreBoard() {
+interface BigScoreBoardProps {
+    showTitle?: boolean,
+    uid?: string
+    showsColorTheme?: boolean
+}
+
+function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:BigScoreBoardProps) {
 
     const {
         seconds,
@@ -43,14 +49,13 @@ function BigScoreBoard() {
 
     // General score
     const [playersScore, setPlayersScore] = useLocalStorage<ScoreObject>({
-        key: 'players-score-scheme',
+        key: uid === "" ? 'players-score-scheme' : 'players-score-scheme-' + uid,
         defaultValue: playersScoreDefaultValue,
         serialize: superjson.stringify,
         getInitialValueInEffect: false,
         deserialize: (str) => (str === undefined ? playersScoreDefaultValue : superjson.parse(str)),
     });
 
-    // const [ whoServe, setWhoServe ] = useState<"left" | "right">("left");
     const [isCurrentFirstPlayerServe, setIsCurrentFirstPlayerServe] = useState<boolean>(true);
 
     function changeScore(score: number, player: keyof ScoreObject) {
@@ -122,6 +127,7 @@ function BigScoreBoard() {
     function nextMatctStart() {
         const whoWin = determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"]);
 
+        // swap match score
         const newLeftMatchScore = playersScore!["rightPlayerMatchScore"] + (whoWin === "Right Won >" ? 1 : 0);
         const newRightMatchScore = playersScore!["leftPlayerMatchScore"] + (whoWin === "< Left Won" ? 1 : 0);
 
@@ -135,11 +141,9 @@ function BigScoreBoard() {
         }));
 
         toast.success('Next match!');
-        reset()
+        reset(); // timer reset
         initMatchScoreScreen(newLeftMatchScore, newRightMatchScore);
         initScoreScreen(0, 0);
-
-        // setWhoServe( whoServe === "right" ? "left" : "right" );
     }
 
     function swapMatchScore() {
@@ -175,7 +179,11 @@ function BigScoreBoard() {
     useEffect(() => {
         determineWhoServeWithScore(playersScore!);
 
-        const whoWon = determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"])
+        const whoWon = determineWhoWin(
+            playersScore!["leftPlayerScore"],
+            playersScore!["rightPlayerScore"]
+        )
+
         if (whoWon !== "") {
             pause()
         }
@@ -188,7 +196,6 @@ function BigScoreBoard() {
     return (
         <>
             <Container fluid>
-
 
                 <Group justify="space-between" mt={12}>
 
@@ -287,18 +294,23 @@ function BigScoreBoard() {
     
                         </Menu.Dropdown>
                     </Menu>
-                    <ColorToggleBtn />
+
+                    { showsColorTheme &&  <ColorToggleBtn /> }
+                   
                     </Group>
 
                 </Group>
 
-                <Text ta="center" fz={48} fw={300}>
-                    TT Score Board
-                </Text>
-                <Text ta="center" fz={14} fw={300} c="dimmed" mt={-8}>
-                    Modern table Tennis Score Board for you
-                </Text>
-
+                { showTitle && (
+                    <>
+                    <Text ta="center" fz={48} fw={300}>
+                        TT Score Board
+                    </Text>
+                    <Text ta="center" fz={14} fw={300} c="dimmed" mt={-8}>
+                        Modern table Tennis Score Board for you
+                    </Text>  
+                    </>
+                )}
 
 
                 <Group justify="center" mt={12}>
