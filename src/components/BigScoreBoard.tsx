@@ -12,6 +12,7 @@ import ColorToggleBtn from "./common/ColorToggleBtn";
 import superjson from 'superjson';
 import toast from "react-hot-toast";
 import OverallTimer from "./OverallTimer";
+import { useNavigate } from "react-router-dom";
 
 const playersScoreDefaultValue = {
     leftPlayerScore: 0,
@@ -39,6 +40,8 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:Bi
         pause,
         reset,
     } = useStopwatch({ autoStart: true });
+
+    const navigate = useNavigate();
 
     // embla API useState
     const [emblaLeftScore, setEmblaLeftScore] = useState<EmblaCarouselType | null>(null);
@@ -290,6 +293,28 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:Bi
                                 Reset Timer
                             </Menu.Item>
 
+                            <Menu.Label>
+                                Mode
+                            </Menu.Label>
+
+                            <Menu.Item 
+                                leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => {
+                                    navigate("/multi")
+                                }}
+                            >
+                                To Multi Mode
+                            </Menu.Item>
+
+                            <Menu.Item 
+                                leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
+                                onClick={() => {
+                                    navigate("/")
+                                }}
+                            >
+                                To Basic Mode
+                            </Menu.Item>
+
 
     
                         </Menu.Dropdown>
@@ -370,7 +395,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:Bi
                                     player={"leftPlayerMatchScore"}
                                     changeScore={changeScore}
                                     height={230}
-                                    fontSize={6}
+                                    fontSize={4}
                                     setEmbla={setEmblaLeftMatchScore}
                                 />
                             </Grid.Col>
@@ -381,7 +406,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:Bi
                                     player={"rightPlayerMatchScore"}
                                     changeScore={changeScore}
                                     height={230}
-                                    fontSize={6}
+                                    fontSize={4}
                                     setEmbla={setEmblaRightMatchScore}
                                 />
                             </Grid.Col>
