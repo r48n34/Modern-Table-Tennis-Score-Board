@@ -11,6 +11,7 @@ import { ScoreObject } from "../interface/tableTennisInterface";
 import ColorToggleBtn from "./common/ColorToggleBtn";
 import superjson from 'superjson';
 import toast from "react-hot-toast";
+import OverallTimer from "./OverallTimer";
 
 const playersScoreDefaultValue = {
     leftPlayerScore: 0,
@@ -188,13 +189,19 @@ function BigScoreBoard() {
         <>
             <Container fluid>
 
-                <Group justify="flex-end" mt={12}>
 
+                <Group justify="space-between" mt={12}>
+
+                    <OverallTimer />
+
+                    <Group>
                     <Menu shadow="md" width={200}>
                         <Menu.Target>
+                            <Tooltip label="Menu">
                             <ActionIcon variant="light" aria-label="Menu" >
                                 <IconCategory style={{ width: '70%', height: '70%' }} stroke={1.5} />
                             </ActionIcon>
+                            </Tooltip>
                         </Menu.Target>
 
                         <Menu.Dropdown>
@@ -280,8 +287,8 @@ function BigScoreBoard() {
     
                         </Menu.Dropdown>
                     </Menu>
-
                     <ColorToggleBtn />
+                    </Group>
 
                 </Group>
 
