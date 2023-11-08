@@ -1,5 +1,5 @@
 import { ActionIcon, Box , Group, Popover, Text, Tooltip } from "@mantine/core";
-import { IconPlayerPauseFilled, IconPlayerPlayFilled, IconRepeat, IconTimeDuration0 } from "@tabler/icons-react";
+import { IconClock, IconPlayerPauseFilled, IconPlayerPlayFilled, IconRepeat } from "@tabler/icons-react";
 import { useStopwatch } from "react-timer-hook";
 
 function OverallTimer() {
@@ -18,7 +18,7 @@ function OverallTimer() {
                 <Popover.Target>
                     <Tooltip label="General Timer">
                     <ActionIcon variant="light" aria-label="Menu" >
-                        <IconTimeDuration0 style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        <IconClock style={{ width: '70%', height: '70%' }} stroke={1.5} />
                     </ActionIcon>
                     </Tooltip>
                 </Popover.Target>

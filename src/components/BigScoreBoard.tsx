@@ -328,7 +328,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:Bi
 
                 { showTitle && (
                     <>
-                    <Text ta="center" fz={48} fw={300}>
+                    <Text ta="center" fz={48} fw={300} mt={6}>
                         TT Score Board
                     </Text>
                     <Text ta="center" fz={14} fw={300} c="dimmed" mt={-8}>
@@ -338,7 +338,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:Bi
                 )}
 
 
-                <Group justify="center" mt={12}>
+                <Group justify="center" mt={16}>
                     <Tooltip label="Start Next Match">
                         <ActionIcon
                             variant="light"
@@ -422,7 +422,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:Bi
                             && (<Text ta="center" fz={32} fw={300}> <IconSwords /> Deuce </Text>)
                         }
 
-                        <Text ta="center" fz={20} c="dimmed">
+                        <Text ta="center" fz={22} c="dimmed" mt={2}>
                             {minutes >= 10 ? minutes : "0" + minutes}:{seconds >= 10 ? seconds : "0" + seconds}
                         </Text>
 

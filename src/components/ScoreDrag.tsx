@@ -3,9 +3,6 @@ import { Box, Card, Text, Stack } from '@mantine/core';
 import { EmblaCarouselType } from 'embla-carousel-react';
 import { useMemo } from 'react';
 
-// import classes from '../style/carousel.module.css';
-// import { useEffect, useState } from 'react';
-
 type ScoreDragProps = {
     changeScore?: Function;
     maxScore?: number
@@ -27,7 +24,6 @@ function ScoreDrag({ changeScore, player = "", maxScore = 50, height = 350, init
     return (
         <Box w={"100%"} p={4}>
         <Carousel
-            // mt={2}
             align="end"
             initialSlide={initialSlideScore}
             slideGap="md"
@@ -35,14 +31,12 @@ function ScoreDrag({ changeScore, player = "", maxScore = 50, height = 350, init
             orientation="vertical"
             height={height}
             withControls={false}
-            // classNames={classes}
             onSlideChange={ (e:number) => changeSlice(e) }
         >
             {[...Array(maxScore)].map((_,i) => i).map( v => (
                 <Carousel.Slide key={v}>
                     <Card shadow="sm" padding="md" radius="md" withBorder style={{ height: "100%", width: "100%" }}>
                     <Stack align="center" justify='center' h={"100%"}>
-                        {/* <Text fz={"9vw"}> */}
                         <Text fz={fontSize + "vw"}>
                             {v}
                         </Text>

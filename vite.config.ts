@@ -8,7 +8,7 @@ export default defineConfig({
         react(),
         VitePWA({
             registerType: 'autoUpdate',
-            includeAssets: ['favicon.ico'],
+            includeAssets: ['ping-pong.svg'],
             manifest: {
                 name: 'Modern Table Tennis Score Board',
                 short_name: 'TT Score Board',
@@ -16,14 +16,14 @@ export default defineConfig({
                 theme_color: '#ffffff',
                 icons: [
                 {
-                    src: 'favicon.ico',
+                    src: 'ping-pong.svg',
                     sizes: '192x192',
-                    type: 'image/ico'
+                    type: 'image/svg'
                 },
                 {
-                    src: 'favicon.ico',
+                    src: 'ping-pong.scg',
                     sizes: '512x512',
-                    type: 'image/ico'
+                    type: 'image/svg'
                 }
                 ]
             }
