@@ -2,25 +2,39 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
-import BigScoreOnePages from "./pages/BigScoreOnePages";
-import BigScoreMultiPages from "./pages/BigScoreMultiPages";
-// import BigScoreBoard from "./components/BigScoreBoard"
+import { lazy, Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorComp from "./components/common/ErrorComp";
+import LoadingPage from "./components/common/LoadingPage";
+
+const BigScoreOnePages = lazy(() => import('./pages/BigScoreOnePages'));
+const BigScoreMultiPages = lazy(() => import('./pages/BigScoreMultiPages'));
+const RoadMap = lazy(() => import('./pages/RoadMap'));
+
 
 const router = createBrowserRouter([
     {
-      path: "/",
-      element: <BigScoreOnePages/>,
+        path: "/",
+        element: <BigScoreOnePages />,
     },
     {
-      path: "/multi",
-      element: <BigScoreMultiPages/>,
+        path: "/multi",
+        element: <BigScoreMultiPages />,
+    },
+    {
+        path: "/roadmap",
+        element: <RoadMap />,
     },
 ]);
 
 function App() {
     return (
         <>
-        <RouterProvider router={router} />
+            <ErrorBoundary fallback={<ErrorComp />}>
+                <Suspense fallback={<LoadingPage />}>
+                    <RouterProvider router={router} />
+                </Suspense>
+            </ErrorBoundary>
         </>
     )
 }

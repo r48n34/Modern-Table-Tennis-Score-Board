@@ -13,6 +13,7 @@ import superjson from 'superjson';
 import toast from "react-hot-toast";
 import OverallTimer from "./OverallTimer";
 import { useNavigate } from "react-router-dom";
+import GotoRoadMap from "./common/GotoRoadMap";
 
 const playersScoreDefaultValue = {
     leftPlayerScore: 0,
@@ -30,7 +31,7 @@ interface BigScoreBoardProps {
     showsColorTheme?: boolean
 }
 
-function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:BigScoreBoardProps) {
+function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: BigScoreBoardProps) {
 
     const {
         seconds,
@@ -201,139 +202,140 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }:Bi
             <Container fluid>
 
                 <Group justify="space-between" mt={12}>
-
                     <OverallTimer />
-
                     <Group>
-                    <Menu shadow="md" width={200}>
-                        <Menu.Target>
-                            <Tooltip label="Menu">
-                            <ActionIcon variant="light" aria-label="Menu" >
-                                <IconCategory style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                            </ActionIcon>
-                            </Tooltip>
-                        </Menu.Target>
+                        <GotoRoadMap />
+                        
+                        <Menu shadow="md" width={200}>
+                            <Menu.Target>
+                                <Tooltip label="Menu">
+                                    <ActionIcon variant="light" aria-label="Menu" >
+                                        <IconCategory style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                    </ActionIcon>
+                                </Tooltip>
+                            </Menu.Target>
 
-                        <Menu.Dropdown>
+                            <Menu.Dropdown>
 
-                            <Menu.Label>
-                                Reset
-                            </Menu.Label>
+                                <Menu.Label>
+                                    Reset
+                                </Menu.Label>
 
-                            <Menu.Item 
-                                leftSection={<IconZoomReset style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => resetGameScore()}
-                            >
-                                Reset Game Score
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconZoomReset style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => resetGameScore()}
+                                >
+                                    Reset Game Score
+                                </Menu.Item>
 
-                            <Menu.Item 
-                                leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => resetMatchScore()}
-                            >
-                                Reset Match Score
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => resetMatchScore()}
+                                >
+                                    Reset Match Score
+                                </Menu.Item>
 
-                            <Menu.Item 
-                                leftSection={<IconServerCog style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => resetAllScore()}
-                            >
-                                Reset All Score
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconServerCog style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => resetAllScore()}
+                                >
+                                    Reset All Score
+                                </Menu.Item>
 
-                            <Menu.Label>
-                                Swap
-                            </Menu.Label>
+                                <Menu.Label>
+                                    Swap
+                                </Menu.Label>
 
-                            <Menu.Item 
-                                leftSection={<IconArrowsExchange style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => swapMatchScore()}
-                            >
-                                Swap Match Score
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconArrowsExchange style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => swapMatchScore()}
+                                >
+                                    Swap Match Score
+                                </Menu.Item>
 
-                            <Menu.Item 
-                                leftSection={<IconArrowsExchange2 style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => swapGameScore()}
-                            >
-                                Swap Game Score
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconArrowsExchange2 style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => swapGameScore()}
+                                >
+                                    Swap Game Score
+                                </Menu.Item>
 
-                            <Menu.Label>
-                                Timer
-                            </Menu.Label>
+                                <Menu.Label>
+                                    Timer
+                                </Menu.Label>
 
-                            <Menu.Item 
-                                leftSection={<IconPlayerPlayFilled style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => {
-                                    toast.success("Timer Started")
-                                    start()
-                                }}
-                            >
-                                Start Timer
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconPlayerPlayFilled style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => {
+                                        toast.success("Timer Started")
+                                        start()
+                                    }}
+                                >
+                                    Start Timer
+                                </Menu.Item>
 
-                            <Menu.Item 
-                                leftSection={<IconPlayerPauseFilled style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => {
-                                    toast.success("Timer Stopped")
-                                    pause()
-                                }}
-                            >
-                                Pause Timer
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconPlayerPauseFilled style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => {
+                                        toast.success("Timer Stopped")
+                                        pause()
+                                    }}
+                                >
+                                    Pause Timer
+                                </Menu.Item>
 
-                            <Menu.Item 
-                                leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => {
-                                    toast.success("Timer Resetted")
-                                    reset()
-                                }}
-                            >
-                                Reset Timer
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => {
+                                        toast.success("Timer Resetted")
+                                        reset()
+                                    }}
+                                >
+                                    Reset Timer
+                                </Menu.Item>
 
-                            <Menu.Label>
-                                Mode
-                            </Menu.Label>
+                                <Menu.Label>
+                                    Mode
+                                </Menu.Label>
 
-                            <Menu.Item 
-                                leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => {
-                                    navigate("/multi")
-                                }}
-                            >
-                                To Multi Mode
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => {
+                                        navigate("/multi")
+                                    }}
+                                >
+                                    To Multi Mode
+                                </Menu.Item>
 
-                            <Menu.Item 
-                                leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
-                                onClick={() => {
-                                    navigate("/")
-                                }}
-                            >
-                                To Basic Mode
-                            </Menu.Item>
+                                <Menu.Item
+                                    leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={() => {
+                                        navigate("/")
+                                    }}
+                                >
+                                    To Basic Mode
+                                </Menu.Item>
 
 
-    
-                        </Menu.Dropdown>
-                    </Menu>
 
-                    { showsColorTheme &&  <ColorToggleBtn /> }
-                   
+                            </Menu.Dropdown>
+                        </Menu>
+
+                        {showsColorTheme && <ColorToggleBtn />}
                     </Group>
+
+
 
                 </Group>
 
-                { showTitle && (
+                {showTitle && (
                     <>
-                    <Text ta="center" fz={48} fw={300} mt={6}>
-                        TT Score Board
-                    </Text>
-                    <Text ta="center" fz={14} fw={300} c="dimmed" mt={-8}>
-                        Modern table Tennis Score Board for you
-                    </Text>  
+                        <Text ta="center" fz={48} fw={300} mt={6}>
+                            TT Score Board
+                        </Text>
+                        <Text ta="center" fz={14} fw={300} c="dimmed" mt={-8}>
+                            Modern table Tennis Score Board for you
+                        </Text>
                     </>
                 )}
 
