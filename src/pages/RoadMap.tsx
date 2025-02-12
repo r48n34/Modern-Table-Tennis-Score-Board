@@ -1,9 +1,13 @@
 import RoadMapComp from "../components/roadMap/RoadMapComp";
 
-function RoadMap(){
+interface RoadMapProps {
+    lang: "en" | "ch"
+}
+
+function RoadMap({ lang = "en" }: RoadMapProps){
     return (
         <>
-        <RoadMapComp/>
+        <RoadMapComp lang={lang}/>
         </>
     )
 }

@@ -23,7 +23,15 @@ const router = createBrowserRouter([
     },
     {
         path: "/roadmap",
-        element: <RoadMap />,
+        element: <RoadMap lang="en"/>,
+    },
+    {
+        path: "/roadmap/en",
+        element: <RoadMap lang="en"/>,
+    },
+    {
+        path: "/roadmap/ch",
+        element: <RoadMap lang="ch"/>,
     },
 ]);
 
