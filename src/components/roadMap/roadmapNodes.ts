@@ -160,6 +160,26 @@ export const roadMapNodes = [
         targetPosition: Position.Left,
     },
     {
+        id: "Forehand-Force",
+        position: { x: 770, y: 540 },
+        data: { label: "Forehand Drive / Attack" },
+        style: {
+            width: 230,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+    {
+        id: "Backhand-Force",
+        position: { x: 770, y: 600 },
+        data: { label: "Backhand Drive / Attack" },
+        style: {
+            width: 230,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+    {
         id: "Basic-Side",
         position: { x: 100, y: 760 },
         data: { label: "Basic Skills (Side Spin)" },
@@ -167,7 +187,7 @@ export const roadMapNodes = [
     {
         id: "Basic-Side-Backhand",
         position: { x: 300, y: 720 },
-        data: { label: "Backhand Tackle Side Spin" },
+        data: { label: "Backhand Block / Push" },
         style: {
             width: 200,
         },
@@ -177,7 +197,7 @@ export const roadMapNodes = [
     {
         id: "Forehand-Side-Backhand",
         position: { x: 300, y: 810 },
-        data: { label: "Forehand Tackle Side Spin" },
+        data: { label: "Forehand Block / Push" },
         style: {
             width: 200,
         },
@@ -214,6 +234,108 @@ export const roadMapNodes = [
         sourcePosition: Position.Right,
         targetPosition: Position.Left,
     },
+    {
+        id: "Basic-Back",
+        position: { x: 100, y: 970 },
+        data: { label: "Basic Skills (Back Spin)" },
+    },
+    {
+        id: "Basic-Back-Backhand",
+        position: { x: 300, y: 920 },
+        data: { label: "Backhand Short / Long Push" },
+        style: {
+            width: 200,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+    {
+        id: "Basic-Back-Forehand",
+        position: { x: 300, y: 1020 },
+        data: { label: "Forehand Short / Long Push" },
+        style: {
+            width: 200,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+    {
+        id: "Basic-Back-Forehand-Up",
+        position: { x: 550, y: 970 },
+        data: { label: "Forehand (Counter) Drive" },
+        style: {
+            width: 160,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+
+    {
+        id: "Basic-Serve-Back",
+        position: { x: 760, y: 970 },
+        data: { label: "Serve (Either One)" },
+        style: {
+            width: 160,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+    {
+        id: "Serve-Forehand-Back",
+        position: { x: 960, y: 920 },
+        data: { label: "Forehand Back Serve (Any Position)" },
+        style: {
+            width: 260,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+    {
+        id: "Serve-Backhand-Back",
+        position: { x: 960, y: 1020 },
+        data: { label: "Backhand Back Serve (Any Position)" },
+        style: {
+            width: 260,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+
+    {
+        id: "Basic-Tactics",
+        position: { x: 100, y: 1200 },
+        data: { label: "Basic Tactics" },
+    },
+    {
+        id: "4-Points-Serve",
+        position: { x: 300, y: 1140 },
+        data: { label: "4 Points Serve (Left | Right | Close | Far)" },
+        style: {
+            width: 260,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+    {
+        id: "Serve-And-Play",
+        position: { x: 300, y: 1200 },
+        data: { label: "Serve and tackle (Regarding spin)" },
+        style: {
+            width: 260,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
+    {
+        id: "Position-And-Footwork",
+        position: { x: 300, y: 1260 },
+        data: { label: "Position And Footwork Stands" },
+        style: {
+            width: 260,
+        },
+        sourcePosition: Position.Right,
+        targetPosition: Position.Left,
+    },
 ];
 
 export const roadMapEdges = [
@@ -227,6 +349,29 @@ export const roadMapEdges = [
         source: "Training-Map",
         target: "Basic",
     },
+    {
+        id: "e1-220",
+        source: "Basic",
+        target: "Basic-Enhancement",
+    },
+    {
+        id: "e1-221",
+        source: "Basic-Enhancement",
+        target: "Basic-Side",
+    },
+    {
+        id: "e1-222",
+        source: "Basic-Side",
+        target: "Basic-Back",
+    },
+    {
+        id: "e1-223",
+        source: "Basic-Back",
+        target: "Basic-Tactics",
+    },
+
+
+
     {
         id: "e1-3",
         source: "Forehand-Drive-One",
