@@ -11,7 +11,7 @@ import { ScoreObject } from "../interface/tableTennisInterface";
 import ColorToggleBtn from "./common/ColorToggleBtn";
 import superjson from 'superjson';
 import toast from "react-hot-toast";
-import OverallTimer from "./OverallTimer";
+// import OverallTimer from "./OverallTimer";
 import { useNavigate } from "react-router-dom";
 import GotoRoadMap from "./common/GotoRoadMap";
 
@@ -202,9 +202,9 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
             <Container fluid>
 
                 <Group justify="space-between" mt={12}>
-                    <OverallTimer />
+                    <GotoRoadMap />
                     <Group>
-                        <GotoRoadMap />
+                        
                         
                         <Menu shadow="md" width={200}>
                             <Menu.Target>
@@ -320,6 +320,8 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
 
                             </Menu.Dropdown>
                         </Menu>
+
+                        
 
                         {showsColorTheme && <ColorToggleBtn />}
                     </Group>

@@ -27,7 +27,8 @@
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.18.0",
     "react-timer-hook": "^3.0.7",
-    "superjson": "^2.2.0"
+    "superjson": "^2.2.0",
+    "vite-plugin-sitemap": "^0.7.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

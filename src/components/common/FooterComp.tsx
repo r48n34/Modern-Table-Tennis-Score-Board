@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { IconScoreboard } from '@tabler/icons-react';
 
 import classes from '../../style/FooterSimple.module.css';
+import ColorToggleBtn from './ColorToggleBtn';
+
 
 const links = [
     { link: '/', label: 'Home', format: "internal" },
     { link: '/roadmap/en', label: 'Roadmap (Eng)', format: "internal" },
     { link: '/roadmap/ch', label: 'Roadmap (中)', format: "internal" },
-    // { link: '/legal', label: 'Legal', format: "internal" },
-    // { link: 'https://github.com/r48n34/local-tools', label: 'Github', format: "external" },
 ];
 
 function FooterComp() {
@@ -53,6 +53,7 @@ function FooterComp() {
 
                 <Group className={classes.links}>
                     {items}
+                    <ColorToggleBtn />
                 </Group>
 
 

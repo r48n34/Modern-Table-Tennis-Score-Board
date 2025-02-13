@@ -1,22 +1,32 @@
-# Modern-Table-Tennis-Score-Board
+# 📊 Modern-Table-Tennis-Score-Board
 Better online table tennis score board, free forever, open sources.  
-(Still In Beta, UI and function may change rapidly currently)  
 
 [Click here for the Website](https://modern-table-tennis-score-board.vercel.app/)
 
-## Features
-- [x] Storing score in local storage 
-- [x] Help to calculate serve count and who serve currently
-- [x] Easy swap match info 
-- [x] With Timer 
-- [x] Mobile UI friendly 
-- [x] More features in future
+## 🛠️ Features  
+1. 🌟 Free forever and open sources. 
+2. 🌐 Better animations and UI for score board
 
-## Todo
-- [ ] Record History match
-- [ ] Share history in social platform
-- [ ] Score mark for more point obtain 
+## 🔍 Functions
+- ✅ Storing score in local storage 
+- ✅ Help to calculate serve count and who serve currently
+- ✅ Easy swap match info 
+- ✅ With Timer 
+- ✅ Mobile UI friendly 
+- ✅ More features in future
+- ✅ Training Road Map
 
+## 🏠 Self Hosting
+```bash
+# Install with yarn
+yarn
 
-## References
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Start with dev
+yarn dev
+
+# Build to production
+yarn build
+```
+
+## 🚗 License
+Distributed under the `MIT License`.
