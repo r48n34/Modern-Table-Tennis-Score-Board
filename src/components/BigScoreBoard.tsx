@@ -204,8 +204,6 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
                 <Group justify="space-between" mt={12}>
                     <GotoRoadMap />
                     <Group>
-                        
-                        
                         <Menu shadow="md" width={200}>
                             <Menu.Target>
                                 <Tooltip label="Menu">
@@ -320,14 +318,8 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
 
                             </Menu.Dropdown>
                         </Menu>
-
-                        
-
                         {showsColorTheme && <ColorToggleBtn />}
                     </Group>
-
-
-
                 </Group>
 
                 {showTitle && (
@@ -336,7 +328,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
                             TT Score Board
                         </Text>
                         <Text ta="center" fz={14} fw={300} c="dimmed" mt={-8}>
-                            Modern table Tennis Score Board for you
+                            Modern table Tennis Score Board
                         </Text>
                     </>
                 )}
@@ -380,7 +372,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
                         />
                         {isCurrentFirstPlayerServe
                             && (
-                                <Badge color="blue" size="lg" mt={6}>
+                                <Badge color="blue" size="lg" mt={2} tt="none" radius={"sm"}>
                                     <IconBounceLeft size={12} /> Serve
                                 </Badge>
                             )
