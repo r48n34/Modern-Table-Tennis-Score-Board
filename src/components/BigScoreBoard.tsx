@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip, Menu, rem } from "@mantine/core"
+import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip, Menu, rem, Box } from "@mantine/core"
 import ScoreDrag from "./ScoreDrag"
 import { EmblaCarouselType } from "embla-carousel";
 import { useLocalStorage } from '@mantine/hooks';
@@ -27,11 +27,12 @@ const playersScoreDefaultValue = {
 
 interface BigScoreBoardProps {
     showTitle?: boolean,
+    showRoadmap?: boolean,
     uid?: string
     showsColorTheme?: boolean
 }
 
-function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: BigScoreBoardProps) {
+function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsColorTheme = true }: BigScoreBoardProps) {
 
     const {
         seconds,
@@ -202,7 +203,11 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
             <Container fluid>
 
                 <Group justify="space-between" mt={12}>
-                    <GotoRoadMap />
+
+                    <Box>
+                        {showRoadmap && <GotoRoadMap />}
+                    </Box>
+                    
                     <Group>
                         <Menu shadow="md" width={200}>
                             <Menu.Target>
@@ -323,11 +328,13 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
                                     leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={async () => {
                                         await navigator.share({
-                                            title: "TT Match Result",
-                                            text: "Match Result\n" +
+                                            title: `TT Match Result ` +
+                                            `(Match: ${playersScore.leftPlayerMatchScore} - ${playersScore.rightPlayerMatchScore}) ` + 
+                                            `(Score: ${playersScore.leftPlayerScore} - ${playersScore.rightPlayerScore}) `,
+                                            text: "*Match Result*\n" +
                                                 `${playersScore.leftPlayerMatchScore} - ${playersScore.rightPlayerMatchScore}\n` +
                                                 `Curretn Score \n` +
-                                                `${playersScore.leftPlayerScore} - ${playersScore.rightPlayerScore}`,
+                                                `${playersScore.leftPlayerScore} - ${playersScore.rightPlayerScore}\n`,
                                             url: window.location.href,
                                         });
                                     }}

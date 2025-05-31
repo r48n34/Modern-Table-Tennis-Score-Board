@@ -12,16 +12,16 @@ function BigScoreMultiPages() {
             <Grid>
 
                 <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
-                    <BigScoreBoard showTitle={false} showsColorTheme={false} uid="aa" />
+                    <BigScoreBoard showTitle={false} showsColorTheme={false} showRoadmap={false} uid="aa" />
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
-                    <BigScoreBoard showTitle={false} showsColorTheme={false} uid="bb" />
+                    <BigScoreBoard showTitle={false} showsColorTheme={false} showRoadmap={false} uid="bb" />
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
-                    <BigScoreBoard showTitle={false} showsColorTheme={false} uid="cc" />
+                    <BigScoreBoard showTitle={false} showsColorTheme={false} showRoadmap={false} uid="cc" />
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 12, lg: 6 }}>
-                    <BigScoreBoard showTitle={false} showsColorTheme={false} uid="dd" />
+                    <BigScoreBoard showTitle={false} showsColorTheme={false} showRoadmap={false} uid="dd" />
                 </Grid.Col>
 
             </Grid>
