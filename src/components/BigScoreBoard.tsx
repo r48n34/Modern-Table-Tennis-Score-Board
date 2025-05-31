@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip, Menu, rem } from "@mantine/core"
 import ScoreDrag from "./ScoreDrag"
-import { EmblaCarouselType } from "embla-carousel-react";
+import { EmblaCarouselType } from "embla-carousel";
 import { useLocalStorage } from '@mantine/hooks';
 import { useStopwatch } from 'react-timer-hook';
 
-import { IconArrowsExchange, IconArrowsExchange2, IconBounceLeft, IconBounceRight, IconCategory, IconPingPong, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerTrackNextFilled, IconRepeat, IconServerCog, IconSwords, IconZoomReset } from "@tabler/icons-react";
+import { IconArrowsExchange, IconArrowsExchange2, IconBounceLeft, IconBounceRight, IconCategory, IconPingPong, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerTrackNextFilled, IconRepeat, IconServerCog, IconShare, IconSwords, IconZoomReset } from "@tabler/icons-react";
 import { determineWhoServe, determineWhoWin } from "../utils/tableTennisUtils";
 import { ScoreObject } from "../interface/tableTennisInterface";
 import ColorToggleBtn from "./common/ColorToggleBtn";
@@ -132,8 +132,8 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
         const whoWin = determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"]);
 
         // swap match score
-        const newLeftMatchScore = playersScore!["rightPlayerMatchScore"] + (whoWin === "Right Won >" ? 1 : 0);
-        const newRightMatchScore = playersScore!["leftPlayerMatchScore"] + (whoWin === "< Left Won" ? 1 : 0);
+        const newLeftMatchScore = playersScore!["rightPlayerMatchScore"] + (whoWin === "Right Win >" ? 1 : 0);
+        const newRightMatchScore = playersScore!["leftPlayerMatchScore"] + (whoWin === "< Left Win" ? 1 : 0);
 
         setPlayersScore(v => ({
             ...v,
@@ -314,7 +314,26 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
                                     To Basic Mode
                                 </Menu.Item>
 
+                                
+                                <Menu.Label>
+                                    Others
+                                </Menu.Label>
 
+                                <Menu.Item
+                                    leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}
+                                    onClick={async () => {
+                                        await navigator.share({
+                                            title: "TT Match Result",
+                                            text: "Match Result\n" +
+                                                `${playersScore.leftPlayerMatchScore} - ${playersScore.rightPlayerMatchScore}\n` +
+                                                `Curretn Score \n` +
+                                                `${playersScore.leftPlayerScore} - ${playersScore.rightPlayerScore}`,
+                                            url: window.location.href,
+                                        });
+                                    }}
+                                >
+                                    Share Result
+                                </Menu.Item>
 
                             </Menu.Dropdown>
                         </Menu>
@@ -372,7 +391,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
                         />
                         {isCurrentFirstPlayerServe
                             && (
-                                <Badge color="blue" size="lg" mt={2} tt="none" radius={"sm"}>
+                                <Badge color="blue" size="lg" mt={2} tt="none">
                                     <IconBounceLeft size={12} /> Serve
                                 </Badge>
                             )
@@ -381,10 +400,6 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
 
                     <Grid.Col span={{ base: 12, md: 2, lg: 2 }} order={{ base: 1, md: 2, lg: 2 }}>
                         <Grid>
-
-                            {/* <Grid.Col span={{ base: 3, md: 0, lg: 0 }}>
-                        </Grid.Col> */}
-
                             <Grid.Col span={{ base: 3, md: 6, lg: 6 }} offset={{ base: 3, md: 0, lg: 0 }}>
                                 <ScoreDrag
                                     initialSlide={playersScore!.leftPlayerMatchScore}
@@ -407,9 +422,6 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
                                 />
                             </Grid.Col>
 
-                            {/* <Grid.Col span={{ base: 3, md: 0, lg: 0 }}>
-                        </Grid.Col> */}
-
                         </Grid>
 
                         {
@@ -422,7 +434,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
                             {minutes >= 10 ? minutes : "0" + minutes}:{seconds >= 10 ? seconds : "0" + seconds}
                         </Text>
 
-                        <Text ta="center" fz={32}>
+                        <Text ta="center" fz={32} fw={400}>
                             {determineWhoWin(playersScore!["leftPlayerScore"], playersScore!["rightPlayerScore"])}
                         </Text>
 
@@ -438,7 +450,7 @@ function BigScoreBoard({ showTitle = true, uid = "", showsColorTheme = true }: B
                         {!isCurrentFirstPlayerServe
                             && (
                                 <Group justify="flex-end">
-                                    <Badge color="blue" size="lg" mt={6}>
+                                    <Badge color="blue" size="lg" mt={2} tt="none">
                                         <IconBounceRight size={12} /> Serve
                                     </Badge>
                                 </Group>

@@ -21,26 +21,26 @@ export function determineWhoServe(playersScore: ScoreObject): "left" | "right" {
     return whoServe
 }
 
-export function determineWhoWin(leftScore: number, rightScore: number): "< Left Won" | "Right Won >" | "" {
+export function determineWhoWin(leftScore: number, rightScore: number): "< Left Win" | "Right Win >" | "" {
 
     if(leftScore >= 10 && rightScore >= 10){ // Deuce
         const scoreDiff = leftScore - rightScore;
 
         if(scoreDiff >= 2){
-            return "< Left Won"
+            return "< Left Win"
         }
         else if(scoreDiff <= -2){
-            return "Right Won >"
+            return "Right Win >"
         }
 
         return ""
     }
     else { // Normal
         if(leftScore >= 11 && rightScore <= 10){
-            return "< Left Won"
+            return "< Left Win"
         }
         else if(rightScore >= 11 && leftScore <= 10){
-            return "Right Won >"
+            return "Right Win >"
         }
 
         return ""
