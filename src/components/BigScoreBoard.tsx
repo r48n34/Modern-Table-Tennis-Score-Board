@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip, Menu, rem, Box } from "@mantine/core"
+import { Container, Grid, Text, Badge, Radio, Group, Space, ActionIcon, Tooltip, Menu, rem, Box, TextInput } from "@mantine/core"
 import ScoreDrag from "./ScoreDrag"
 import { EmblaCarouselType } from "embla-carousel";
 import { useLocalStorage } from '@mantine/hooks';
@@ -22,7 +22,9 @@ const playersScoreDefaultValue = {
     rightPlayerScore: 0,
     rightPlayerMatchScore: 0,
 
-    whoServeFirst: "left" as "left" | "right"
+    whoServeFirst: "left" as "left" | "right",
+
+    freeText: "",
 }
 
 interface BigScoreBoardProps {
@@ -54,7 +56,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
 
     // General score
     const [playersScore, setPlayersScore] = useLocalStorage<ScoreObject>({
-        key: uid === "" ? 'players-score-scheme' : 'players-score-scheme-' + uid,
+        key: uid === "" ? 'players-score2-scheme' : 'players-score2-scheme-' + uid,
         defaultValue: playersScoreDefaultValue,
         serialize: superjson.stringify,
         getInitialValueInEffect: false,
@@ -63,13 +65,30 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
 
     const [isCurrentFirstPlayerServe, setIsCurrentFirstPlayerServe] = useState<boolean>(true);
 
+    function changeText(freeText: string) {
+        setPlayersScore(v => {
+            const newPlayer: ScoreObject = {
+                ...v,
+            }
+
+            newPlayer["freeText"] = freeText;
+
+            return newPlayer
+        });
+    }
+
     function changeScore(score: number, player: keyof ScoreObject) {
         setPlayersScore(v => {
             const newPlayer: ScoreObject = {
                 ...v,
             }
 
-            if (player !== "whoServeFirst") {
+            if (
+                player === "leftPlayerScore" ||
+                player === "leftPlayerMatchScore" ||
+                player === "rightPlayerScore" ||
+                player === "rightPlayerMatchScore" 
+            ) {
                 newPlayer[player] = score;
             }
 
@@ -115,14 +134,14 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
     }
 
     function resetAllScore() {
-        setPlayersScore(v => ({
-            ...v,
+        setPlayersScore({
             leftPlayerScore: 0,
             rightPlayerScore: 0,
             leftPlayerMatchScore: 0,
             rightPlayerMatchScore: 0,
-            whoServeFirst: "left"
-        }));
+            whoServeFirst: "left",
+            freeText: ""
+        });
 
         toast.success('All score has been resetted');
         initScoreScreen(0, 0)
@@ -207,7 +226,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                     <Box>
                         {showRoadmap && <GotoRoadMap />}
                     </Box>
-                    
+
                     <Group>
                         <Menu shadow="md" width={200}>
                             <Menu.Target>
@@ -319,7 +338,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                                     To Basic Mode
                                 </Menu.Item>
 
-                                
+
                                 <Menu.Label>
                                     Others
                                 </Menu.Label>
@@ -328,9 +347,9 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                                     leftSection={<IconShare style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={async () => {
                                         await navigator.share({
-                                            title: `TT Match Result ` +
-                                            `(Match: ${playersScore.leftPlayerMatchScore} - ${playersScore.rightPlayerMatchScore}) ` + 
-                                            `(Score: ${playersScore.leftPlayerScore} - ${playersScore.rightPlayerScore}) `,
+                                            title: `TT Match Result ${playersScore.freeText ? "[" + playersScore.freeText + "]" : ""}` +
+                                                `(Match: ${playersScore.leftPlayerMatchScore} - ${playersScore.rightPlayerMatchScore}) ` +
+                                                `(Score: ${playersScore.leftPlayerScore} - ${playersScore.rightPlayerScore}) `,
                                             text: "*Match Result*\n" +
                                                 `${playersScore.leftPlayerMatchScore} - ${playersScore.rightPlayerMatchScore}\n` +
                                                 `Curretn Score \n` +
@@ -371,6 +390,14 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                             <IconPlayerTrackNextFilled style={{ width: '70%', height: '70%' }} stroke={1.5} />
                         </ActionIcon>
                     </Tooltip>
+                </Group>
+
+                <Group justify="center" mt={12}>
+                    <TextInput
+                        placeholder="Free Text"
+                        value={playersScore.freeText || ""}
+                        onChange={(event) => changeText(event.currentTarget.value)}
+                    />
                 </Group>
 
                 <Radio.Group

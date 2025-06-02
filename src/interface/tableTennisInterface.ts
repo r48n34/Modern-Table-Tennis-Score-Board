@@ -3,5 +3,6 @@ export type ScoreObject = {
     leftPlayerMatchScore: number,
     rightPlayerScore: number,
     rightPlayerMatchScore: number,
-    whoServeFirst: "left" | "right"
+    whoServeFirst: "left" | "right",
+    freeText: string
 }
