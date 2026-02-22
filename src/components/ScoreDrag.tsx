@@ -34,8 +34,8 @@ function ScoreDrag({ changeScore, player = "", maxScore = 50, height = 350, init
                 onSlideChange={(e: number) => changeSlice(e)}
             >
                 {[...Array(maxScore)].map((_, i) => i).map(v => (
-                    <Carousel.Slide key={v}>
-                        <Card shadow="sm" padding="md" radius="md" withBorder style={{ height: "100%", width: "100%" }}>
+                    <Carousel.Slide key={v} style={{ height: "100%", width: "100%", minHeight: "100%" }}>
+                        <Card shadow="sm" padding="md" radius="md" withBorder style={{ height: "100%", width: "100%", minHeight: "100%" }}>
                             <Stack align="center" justify='center' h={"100%"}>
                                 <Text fz={fontSize + "vw"}>
                                     {v}
