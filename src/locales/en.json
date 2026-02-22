@@ -1,0 +1,61 @@
+{
+  "app": {
+    "title": "TT Score Board",
+    "subtitle": "Modern table Tennis Score Board",
+    "home": "Home"
+  },
+  "menu": {
+    "reset": "Reset",
+    "resetGameScore": "Reset Game Score",
+    "resetMatchScore": "Reset Match Score",
+    "resetAllScore": "Reset All Score",
+    "swap": "Swap",
+    "swapMatchScore": "Swap Match Score",
+    "swapGameScore": "Swap Game Score",
+    "timer": "Timer",
+    "startTimer": "Start Timer",
+    "pauseTimer": "Pause Timer",
+    "resetTimer": "Reset Timer",
+    "mode": "Mode",
+    "toMultiMode": "To Multi Mode",
+    "toBasicMode": "To Basic Mode",
+    "others": "Others",
+    "shareResult": "Share Result"
+  },
+  "toast": {
+    "matchScoreResetted": "Match score resetted",
+    "gameScoreResetted": "Game score resetted",
+    "allScoreResetted": "All score has been resetted",
+    "nextMatch": "Next match!",
+    "matchScoreSwapped": "Match score swapped!",
+    "gameScoreSwapped": "Game score swapped!",
+    "timerStarted": "Timer Started",
+    "timerStopped": "Timer Stopped",
+    "timerResetted": "Timer Resetted"
+  },
+  "game": {
+    "firstServe": "First Serve",
+    "serve": "Serve",
+    "deuce": "Deuce",
+    "freeText": "Free Text",
+    "startNextMatch": "Start Next Match"
+  },
+  "footer": {
+    "roadmapEn": "Roadmap (Eng)",
+    "roadmapCh": "Roadmap (中)"
+  },
+  "gotoRoadmap": {
+    "eng": "TT Road Map (Eng)",
+    "ch": "TT Road Map (中文)"
+  },
+  "back": "Back",
+  "language": {
+    "label": "Language",
+    "switchLanguage": "Switch Language"
+  },
+  "error": {
+    "title": "Opps, something went wrong",
+    "refresh": "Please refresh the page"
+  },
+  "loading": "Loading..."
+}

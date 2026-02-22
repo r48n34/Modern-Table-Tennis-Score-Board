@@ -1,19 +1,22 @@
 import { Container, Group, Anchor, Text, Box } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { IconScoreboard } from '@tabler/icons-react';
 
 import classes from '../../style/FooterSimple.module.css';
 import ColorToggleBtn from './ColorToggleBtn';
+import LanguageSwitcher from './LanguageSwitcher';
 
-
-const links = [
-    { link: '/', label: 'Home', format: "internal" },
-    { link: '/roadmap/en', label: 'Roadmap (Eng)', format: "internal" },
-    { link: '/roadmap/ch', label: 'Roadmap (中)', format: "internal" },
-];
 
 function FooterComp() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
+
+    const links = [
+        { link: '/', label: t('app.home'), format: "internal" },
+        { link: '/roadmap/en', label: t('footer.roadmapEn'), format: "internal" },
+        { link: '/roadmap/ch', label: t('footer.roadmapCh'), format: "internal" },
+    ];
 
     const items = links.map((link) => (
         <Anchor<'a'>
@@ -42,7 +45,7 @@ function FooterComp() {
                     <Group>
                         <IconScoreboard size={24} />
                         <Text fw={300} fz={20} ml={-10}>
-                            Modern Table Tennis Score Board
+                            {t('app.title')}
                         </Text>
                     </Group>
 
@@ -53,6 +56,7 @@ function FooterComp() {
 
                 <Group className={classes.links}>
                     {items}
+                    <LanguageSwitcher />
                     <ColorToggleBtn />
                 </Group>
 

@@ -1,0 +1,61 @@
+{
+  "app": {
+    "title": "卓球スコアボード",
+    "subtitle": "モダン卓球スコアボード",
+    "home": "ホーム"
+  },
+  "menu": {
+    "reset": "リセット",
+    "resetGameScore": "ゲームスコアをリセット",
+    "resetMatchScore": "マッチスコアをリセット",
+    "resetAllScore": "すべてのスコアをリセット",
+    "swap": "入れ替え",
+    "swapMatchScore": "マッチスコアを入れ替え",
+    "swapGameScore": "ゲームスコアを入れ替え",
+    "timer": "タイマー",
+    "startTimer": "タイマー開始",
+    "pauseTimer": "タイマー一時停止",
+    "resetTimer": "タイマーリセット",
+    "mode": "モード",
+    "toMultiMode": "マルチモードへ",
+    "toBasicMode": "基本モードへ",
+    "others": "その他",
+    "shareResult": "結果を共有"
+  },
+  "toast": {
+    "matchScoreResetted": "マッチスコアがリセットされました",
+    "gameScoreResetted": "ゲームスコアがリセットされました",
+    "allScoreResetted": "すべてのスコアがリセットされました",
+    "nextMatch": "次のマッチ！",
+    "matchScoreSwapped": "マッチスコアが入れ替えられました！",
+    "gameScoreSwapped": "ゲームスコアが入れ替えられました！",
+    "timerStarted": "タイマー開始",
+    "timerStopped": "タイマー停止",
+    "timerResetted": "タイマーリセット"
+  },
+  "game": {
+    "firstServe": "優先サービス",
+    "serve": "サービス",
+    "deuce": "デuce",
+    "freeText": "自由入力",
+    "startNextMatch": "次のマッチを開始"
+  },
+  "footer": {
+    "roadmapEn": "ロードマップ (英)",
+    "roadmapCh": "ロードマップ (中)"
+  },
+  "gotoRoadmap": {
+    "eng": "トレーニングマップ (英語)",
+    "ch": "トレーニングマップ (中国語)"
+  },
+  "back": "戻る",
+  "language": {
+    "label": "言語",
+    "switchLanguage": "言語を切替"
+  },
+  "error": {
+    "title": "哎呀、問題が発生しました",
+    "refresh": "ページを更新してください"
+  },
+  "loading": "読み込み中..."
+}

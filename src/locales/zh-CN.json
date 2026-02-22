@@ -1,0 +1,61 @@
+{
+  "app": {
+    "title": "乒乓球计分板",
+    "subtitle": "现代乒乓球计分板",
+    "home": "首页"
+  },
+  "menu": {
+    "reset": "重置",
+    "resetGameScore": "重置局数比分",
+    "resetMatchScore": "重置比赛比分",
+    "resetAllScore": "重置所有比分",
+    "swap": "交换",
+    "swapMatchScore": "交换比赛比分",
+    "swapGameScore": "交换局数比分",
+    "timer": "计时器",
+    "startTimer": "开始计时",
+    "pauseTimer": "暂停计时",
+    "resetTimer": "重置计时",
+    "mode": "模式",
+    "toMultiMode": "前往多人模式",
+    "toBasicMode": "前往基本模式",
+    "others": "其他",
+    "shareResult": "分享结果"
+  },
+  "toast": {
+    "matchScoreResetted": "比赛比分已重置",
+    "gameScoreResetted": "局数比分已重置",
+    "allScoreResetted": "所有比分已重置",
+    "nextMatch": "下一场比赛！",
+    "matchScoreSwapped": "比赛比分已交换！",
+    "gameScoreSwapped": "局数比分已交换！",
+    "timerStarted": "计时已开始",
+    "timerStopped": "计时已暂停",
+    "timerResetted": "计时已重置"
+  },
+  "game": {
+    "firstServe": "先发球",
+    "serve": "发球",
+    "deuce": "平手",
+    "freeText": "备注文字",
+    "startNextMatch": "开始下一场"
+  },
+  "footer": {
+    "roadmapEn": "Roadmap (Eng)",
+    "roadmapCh": "Roadmap (中)"
+  },
+  "gotoRoadmap": {
+    "eng": "训练地图 (英文)",
+    "ch": "训练地图 (中文)"
+  },
+  "back": "返回",
+  "language": {
+    "label": "语言",
+    "switchLanguage": "切换语言"
+  },
+  "error": {
+    "title": "哎呀，出了一点问题",
+    "refresh": "请刷新页面"
+  },
+  "loading": "加载中..."
+}

@@ -4,6 +4,7 @@ import ScoreDrag from "./ScoreDrag"
 import { EmblaCarouselType } from "embla-carousel";
 import { useLocalStorage } from '@mantine/hooks';
 import { useStopwatch } from 'react-timer-hook';
+import { useTranslation } from 'react-i18next';
 
 import { IconArrowsExchange, IconArrowsExchange2, IconBounceLeft, IconBounceRight, IconCategory, IconPingPong, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerTrackNextFilled, IconRepeat, IconServerCog, IconShare, IconSwords, IconZoomReset } from "@tabler/icons-react";
 import { determineWhoServe, determineWhoWin } from "../utils/tableTennisUtils";
@@ -35,6 +36,7 @@ interface BigScoreBoardProps {
 }
 
 function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsColorTheme = true }: BigScoreBoardProps) {
+    const { t } = useTranslation();
 
     const {
         seconds,
@@ -119,7 +121,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
         }));
 
         initMatchScoreScreen(0, 0)
-        toast.success('Match score resetted');
+        toast.success(t('toast.matchScoreResetted'));
     }
 
     function resetGameScore() {
@@ -129,7 +131,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
             rightPlayerScore: 0,
         }));
 
-        toast.success('Game score resetted');
+        toast.success(t('toast.gameScoreResetted'));
         initScoreScreen(0, 0);
     }
 
@@ -143,7 +145,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
             freeText: ""
         });
 
-        toast.success('All score has been resetted');
+        toast.success(t('toast.allScoreResetted'));
         initScoreScreen(0, 0)
         initMatchScoreScreen(0, 0);
     }
@@ -164,7 +166,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
             whoServeFirst: v.whoServeFirst === "right" ? "left" : "right"
         }));
 
-        toast.success('Next match!');
+        toast.success(t('toast.nextMatch'));
         reset(); // timer reset
         initMatchScoreScreen(newLeftMatchScore, newRightMatchScore);
         initScoreScreen(0, 0);
@@ -181,7 +183,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
             // whoServeFirst: v.whoServeFirst === "right" ? "left" : "right"
         }));
 
-        toast.success('Match score swapped!');
+        toast.success(t('toast.matchScoreSwapped'));
         initMatchScoreScreen(newLeftMatchScore, newRightMatchScore)
     }
 
@@ -196,7 +198,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
             // whoServeFirst: v.whoServeFirst === "right" ? "left" : "right"
         }));
 
-        toast.success('Game score swapped!');
+        toast.success(t('toast.gameScoreSwapped'));
         initScoreScreen(newLeftScore, newRightScore);
     }
 
@@ -240,84 +242,84 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                             <Menu.Dropdown>
 
                                 <Menu.Label>
-                                    Reset
+                                    {t('menu.reset')}
                                 </Menu.Label>
 
                                 <Menu.Item
                                     leftSection={<IconZoomReset style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={() => resetGameScore()}
                                 >
-                                    Reset Game Score
+                                    {t('menu.resetGameScore')}
                                 </Menu.Item>
 
                                 <Menu.Item
                                     leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={() => resetMatchScore()}
                                 >
-                                    Reset Match Score
+                                    {t('menu.resetMatchScore')}
                                 </Menu.Item>
 
                                 <Menu.Item
                                     leftSection={<IconServerCog style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={() => resetAllScore()}
                                 >
-                                    Reset All Score
+                                    {t('menu.resetAllScore')}
                                 </Menu.Item>
 
                                 <Menu.Label>
-                                    Swap
+                                    {t('menu.swap')}
                                 </Menu.Label>
 
                                 <Menu.Item
                                     leftSection={<IconArrowsExchange style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={() => swapMatchScore()}
                                 >
-                                    Swap Match Score
+                                    {t('menu.swapMatchScore')}
                                 </Menu.Item>
 
                                 <Menu.Item
                                     leftSection={<IconArrowsExchange2 style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={() => swapGameScore()}
                                 >
-                                    Swap Game Score
+                                    {t('menu.swapGameScore')}
                                 </Menu.Item>
 
                                 <Menu.Label>
-                                    Timer
+                                    {t('menu.timer')}
                                 </Menu.Label>
 
                                 <Menu.Item
                                     leftSection={<IconPlayerPlayFilled style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={() => {
-                                        toast.success("Timer Started")
+                                        toast.success(t('toast.timerStarted'))
                                         start()
                                     }}
                                 >
-                                    Start Timer
+                                    {t('menu.startTimer')}
                                 </Menu.Item>
 
                                 <Menu.Item
                                     leftSection={<IconPlayerPauseFilled style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={() => {
-                                        toast.success("Timer Stopped")
+                                        toast.success(t('toast.timerStopped'))
                                         pause()
                                     }}
                                 >
-                                    Pause Timer
+                                    {t('menu.pauseTimer')}
                                 </Menu.Item>
 
                                 <Menu.Item
                                     leftSection={<IconRepeat style={{ width: rem(14), height: rem(14) }} />}
                                     onClick={() => {
-                                        toast.success("Timer Resetted")
+                                        toast.success(t('toast.timerResetted'))
                                         reset()
                                     }}
                                 >
-                                    Reset Timer
+                                    {t('menu.resetTimer')}
                                 </Menu.Item>
 
                                 <Menu.Label>
-                                    Mode
+                                    {t('menu.mode')}
                                 </Menu.Label>
 
                                 <Menu.Item
@@ -326,7 +328,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                                         navigate("/multi")
                                     }}
                                 >
-                                    To Multi Mode
+                                    {t('menu.toMultiMode')}
                                 </Menu.Item>
 
                                 <Menu.Item
@@ -335,12 +337,12 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                                         navigate("/")
                                     }}
                                 >
-                                    To Basic Mode
+                                    {t('menu.toBasicMode')}
                                 </Menu.Item>
 
 
                                 <Menu.Label>
-                                    Others
+                                    {t('menu.others')}
                                 </Menu.Label>
 
                                 <Menu.Item
@@ -358,7 +360,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                                         });
                                     }}
                                 >
-                                    Share Result
+                                    {t('menu.shareResult')}
                                 </Menu.Item>
 
                             </Menu.Dropdown>
@@ -370,17 +372,17 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                 {showTitle && (
                     <>
                         <Text ta="center" fz={48} fw={300} mt={6}>
-                            TT Score Board
+                            {t('app.title')}
                         </Text>
                         <Text ta="center" fz={14} fw={300} c="dimmed" mt={-8}>
-                            Modern table Tennis Score Board
+                            {t('app.subtitle')}
                         </Text>
                     </>
                 )}
 
 
                 <Group justify="center" mt={16}>
-                    <Tooltip label="Start Next Match">
+                    <Tooltip label={t('game.startNextMatch')}>
                         <ActionIcon
                             variant="light"
                             aria-label="Start Next Match"
@@ -394,7 +396,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
 
                 <Group justify="center" mt={12}>
                     <TextInput
-                        placeholder="Free Text"
+                        placeholder={t('game.freeText')}
                         value={playersScore.freeText || ""}
                         onChange={(event) => changeText(event.currentTarget.value)}
                     />
@@ -410,8 +412,8 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                     withAsterisk
                 >
                     <Group justify="space-between">
-                        <Radio value="left" label={<><IconPingPong size={18} /> First Serve </>} />
-                        <Radio value="right" label={<><IconPingPong size={18} /> First Serve </>} />
+                        <Radio value="left" label={<><IconPingPong size={18} /> {t('game.firstServe')} </>} />
+                        <Radio value="right" label={<><IconPingPong size={18} /> {t('game.firstServe')} </>} />
                     </Group>
                 </Radio.Group>
 
@@ -426,7 +428,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                         {isCurrentFirstPlayerServe
                             && (
                                 <Badge color="blue" size="lg" mt={2} tt="none">
-                                    <IconBounceLeft size={12} /> Serve
+                                    <IconBounceLeft size={12} /> {t('game.serve')}
                                 </Badge>
                             )
                         }
@@ -461,7 +463,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                         {
                             playersScore!["leftPlayerScore"] >= 10
                             && playersScore!["rightPlayerScore"] >= 10
-                            && (<Text ta="center" fz={32} fw={300}> <IconSwords /> Deuce </Text>)
+                            && (<Text ta="center" fz={32} fw={300}> <IconSwords /> {t('game.deuce')} </Text>)
                         }
 
                         <Text ta="center" fz={22} c="dimmed" mt={2}>
@@ -485,7 +487,7 @@ function BigScoreBoard({ showTitle = true, showRoadmap = true, uid = "", showsCo
                             && (
                                 <Group justify="flex-end">
                                     <Badge color="blue" size="lg" mt={2} tt="none">
-                                        <IconBounceRight size={12} /> Serve
+                                        <IconBounceRight size={12} /> {t('game.serve')}
                                     </Badge>
                                 </Group>
                             )

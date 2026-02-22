@@ -1,15 +1,18 @@
 import { Text, Box } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 
 function ErrorComp(){
+    const { t } = useTranslation();
+    
     return (
         <>
         <Box style={{ display: "flex", height: "100vh", justifyContent: "center", alignItems: "center"}}>
             <Box>
             <Text fw={700} ta={"center"}>
-                Opps, something went wrong
+                {t('error.title')}
             </Text>
             <Text ta={"center"} size="sm" c="dimmed">
-                Please refresh the page
+                {t('error.refresh')}
             </Text>
             </Box>
         </Box>

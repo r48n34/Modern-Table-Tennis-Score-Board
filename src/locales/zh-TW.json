@@ -1,0 +1,61 @@
+{
+  "app": {
+    "title": "桌球計分板",
+    "subtitle": "現代桌球計分板",
+    "home": "首頁"
+  },
+  "menu": {
+    "reset": "重設",
+    "resetGameScore": "重設局數比分",
+    "resetMatchScore": "重設比賽比分",
+    "resetAllScore": "重設所有比分",
+    "swap": "交換",
+    "swapMatchScore": "交換比賽比分",
+    "swapGameScore": "交換局數比分",
+    "timer": "計時器",
+    "startTimer": "開始計時",
+    "pauseTimer": "暫停計時",
+    "resetTimer": "重設計時",
+    "mode": "模式",
+    "toMultiMode": "前往多人模式",
+    "toBasicMode": "前往基本模式",
+    "others": "其他",
+    "shareResult": "分享結果"
+  },
+  "toast": {
+    "matchScoreResetted": "比賽比分已重設",
+    "gameScoreResetted": "局數比分已重設",
+    "allScoreResetted": "所有比分已重設",
+    "nextMatch": "下一場比賽！",
+    "matchScoreSwapped": "比賽比分已交換！",
+    "gameScoreSwapped": "局數比分已交換！",
+    "timerStarted": "計時已開始",
+    "timerStopped": "計時已暫停",
+    "timerResetted": "計時已重設"
+  },
+  "game": {
+    "firstServe": "先發球",
+    "serve": "發球",
+    "deuce": "平手",
+    "freeText": "備註文字",
+    "startNextMatch": "開始下一場"
+  },
+  "footer": {
+    "roadmapEn": "Roadmap (Eng)",
+    "roadmapCh": "Roadmap (中)"
+  },
+  "gotoRoadmap": {
+    "eng": "訓練地圖 (英文)",
+    "ch": "訓練地圖 (中文)"
+  },
+  "back": "返回",
+  "language": {
+    "label": "語言",
+    "switchLanguage": "切換語言"
+  },
+  "error": {
+    "title": "哎呀，出了點問題",
+    "refresh": "請重新整理頁面"
+  },
+  "loading": "載入中..."
+}
